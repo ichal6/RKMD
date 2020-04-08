@@ -2,12 +2,12 @@ package DAO;
 
 import Model.Product;
 
-import java.util.List;
+import java.sql.ResultSet;
 
 public interface ProductDAO {
-    public List<Product> getAllProducts();
+    public ResultSet getAllProducts();
 
-    public List<Product> searchProducts();
+    public ResultSet searchProducts();
 
     public void decreaseQuantity(Product product);
 }
