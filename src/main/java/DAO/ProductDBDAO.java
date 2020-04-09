@@ -2,13 +2,11 @@ package DAO;
 
 import Model.Product;
 
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class ProductDBDAO implements ProductDAOAdmin {
 
-    private List<Product> productsList = new ArrayList<>();
+    private HashMap<Product,Integer> productsList = new HashMap<>();
 
 
     @Override
@@ -27,12 +25,12 @@ public class ProductDBDAO implements ProductDAOAdmin {
     }
 
     @Override
-    public ResultSet getAllProducts() {
+    public HashMap<Product,Integer> getAllProducts() {
         return null;
     }
 
     @Override
-    public ResultSet searchProducts() {
+    public HashMap<Product,Integer> searchProducts() {
         return null;
     }
 
