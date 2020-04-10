@@ -48,17 +48,52 @@ public class ProductDBDAO implements ProductDAOAdmin {
             System.out.println(product.getKey().toString() + " " + product.getValue());
         }
     }
-
     private boolean checkIfProductExistInList(Product product){
-        getAllProducts();
-        for (HashMap.Entry<Product, Integer> productInList : productsList.entrySet()) {
-            if(productInList.getKey().equals(product)){
-                System.out.println("Product is already in list.");
+        String query = "select * from bike_product where name like ? and color like ? and Type_of_frame like ?";
+        try {
+            PreparedStatement preparedStatement = connectionToDB.prepareStatement(query);
+            preparedStatement.setString(1,product.getProductName());
+            preparedStatement.setString(2,product.getColor());
+            preparedStatement.setString(3,product.getFrameType());
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
                 return true;
             }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
         }
         return false;
     }
+    public Integer getCurrentQuantity(Product product){
+        Integer currentQuantity = 0;
+        PreparedStatement preparedStatement;
+        String query =
+                "select Quantity from bike_product where name like ? or color like ?";
+        try {
+            preparedStatement = connectionToDB.prepareStatement(query);
+            preparedStatement.setString(1,product.getProductName());
+            preparedStatement.setString(2,product.getColor());
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                return currentQuantity = resultSet.getInt(1);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return currentQuantity;
+    }
+
+    //
+//    private boolean checkIfProductExistInList(Product product){
+//        getAllProducts();
+//        for (HashMap.Entry<Product, Integer> productInList : productsList.entrySet()) {
+//            if(productInList.getKey().equals(product)){
+//                System.out.println("Product is already in list.");
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     @Override
     public void addProductToInventory(Product product, Integer quantity) {
@@ -76,7 +111,7 @@ public class ProductDBDAO implements ProductDAOAdmin {
                 throwables.printStackTrace();
             }
         }else{
-            updateInventory(product);
+            updateInventory(product,quantity);
 //            System.out.println("Product is already in list.");
         }
     }
@@ -87,21 +122,21 @@ public class ProductDBDAO implements ProductDAOAdmin {
     }
 
     @Override
-    public void updateInventory(Product product) {
-        String query =
-                "select Quantity from bike_product where name like ? or color like ?";
+    public void updateInventory(Product product, Integer quantity) {
+        PreparedStatement preparedStatement;
+        Integer currentQuantity =  getCurrentQuantity(product);
+        Integer newquantity = currentQuantity + quantity;
+        String query = "update bike_product set Quantity = ? where name = ? and color = ? and Type_of_frame = ?";
         try {
-            PreparedStatement preparedStatement = connectionToDB.prepareStatement(query);
-            preparedStatement.setString(1,product.getProductName());
-            preparedStatement.setString(2,product.getColor());
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                System.out.println(resultSet.getString(1));
-            }
+            preparedStatement = connectionToDB.prepareStatement(query);
+            preparedStatement.setInt(1,newquantity);
+            preparedStatement.setString(2,product.getProductName());
+            preparedStatement.setString(3,product.getColor());
+            preparedStatement.setString(4,product.getFrameType());
+            preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
     }
 
     @Override
