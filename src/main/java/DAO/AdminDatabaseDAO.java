@@ -60,11 +60,9 @@ public class AdminDatabaseDAO implements AdminDAO {
                 date,
                 adminToAdd[2],
                 adminToAdd[3]);
-        String AddToUser_tableStatement = String.format("INSERT INTO User_table VALUES (DEFAULT, '%s', '%s', '%s', '%s', '%d', DEFAULT)",
+        String AddToUser_tableStatement = String.format("INSERT INTO User_table VALUES (DEFAULT, '%s', '%s', '%d', DEFAULT)",
             adminToAdd[0],
             adminToAdd[1],
-            adminToAdd[2],
-            adminToAdd[3],
             Integer.parseInt(adminToAdd[4])
             );
         updateDB(AddToAccountDetailsStatement);

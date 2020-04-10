@@ -62,8 +62,6 @@ CREATE TABLE User_table (
    	User_ID serial unique,
 	First_name varchar(25) NOT NULL,
 	Last_name varchar(25) NOT NULL,
-	Password varchar(25) NOT NULL,
-	Login varchar(25) NOT NULL,
 	Admin_user BIT NOT NULL,
 	Account_Details_ID serial,
 PRIMARY KEY (User_ID, Account_Details_ID),
@@ -82,12 +80,8 @@ CREATE TABLE Customer_order(
 CONSTRAINT Customer_order_User_ID_fkey FOREIGN KEY (User_ID)
       REFERENCES User_table (User_ID) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-	
+
 CONSTRAINT Customer_order_Order_ID_fkey FOREIGN KEY (Order_ID)
       REFERENCES Order_Table (Order_ID) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
-
-
-
-
