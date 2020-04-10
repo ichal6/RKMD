@@ -23,7 +23,6 @@ public class ProductDBDAO implements ProductDAOAdmin {
         try {
             connectionToDB = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
-//            e.printStackTrace();
             System.out.println("Something went wrong.");
         }
         return connectionToDB;
@@ -44,16 +43,42 @@ public class ProductDBDAO implements ProductDAOAdmin {
         productsList.put(product, quantity);
     }
 
-//    public void display() {
-//        for (HashMap.Entry<Product, Integer> product : productsList.entrySet()) {
-//            System.out.println(product.getKey().toString() + " " + product.getValue());
-//        }
-//    }
+    public void display() {
+        for (HashMap.Entry<Product, Integer> product : productsList.entrySet()) {
+            System.out.println(product.getKey().toString() + " " + product.getValue());
+        }
+    }
 
+    private boolean checkIfProductExistInList(Product product){
+        getAllProducts();
+        for (HashMap.Entry<Product, Integer> productInList : productsList.entrySet()) {
+            if(productInList.getKey().equals(product)){
+                System.out.println("Product is already in list.");
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
-    public void addProductToInventory(Product product) {
-
+    public void addProductToInventory(Product product, Integer quantity) {
+        if (checkIfProductExistInList(product) == false) {
+            String query = "INSERT INTO bike_product VAlUES(DEFAULT, ?,?,?,?,?);";
+            try {
+                PreparedStatement preparedStatement = connectionToDB.prepareStatement(query);
+                preparedStatement.setString(1,product.getProductName());
+                preparedStatement.setFloat(2, product.getPrice());
+                preparedStatement.setString(3,product.getColor());
+                preparedStatement.setString(4,product.getFrameType());
+                preparedStatement.setInt(5,quantity);
+                preparedStatement.executeUpdate();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }else{
+            updateInventory(product);
+//            System.out.println("Product is already in list.");
+        }
     }
 
     @Override
@@ -63,6 +88,19 @@ public class ProductDBDAO implements ProductDAOAdmin {
 
     @Override
     public void updateInventory(Product product) {
+        String query =
+                "select Quantity from bike_product where name like ? or color like ?";
+        try {
+            PreparedStatement preparedStatement = connectionToDB.prepareStatement(query);
+            preparedStatement.setString(1,product.getProductName());
+            preparedStatement.setString(2,product.getColor());
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                System.out.println(resultSet.getString(1));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
 
     }
 
@@ -79,8 +117,6 @@ public class ProductDBDAO implements ProductDAOAdmin {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
-
         return productsList;
     }
 
@@ -89,13 +125,14 @@ public class ProductDBDAO implements ProductDAOAdmin {
         productsList = new HashMap<>();
         String query =
                 "select * from bike_product where name like ? or cast(price as text) like ? or color like ?";
-
         try {
             PreparedStatement preparedStatement = connectionToDB.prepareStatement(query);
             preparedStatement.setString(1, word);
             preparedStatement.setString(2, word);
             preparedStatement.setString(3, word);
+
             resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next() == false) {
                 System.out.println("No result to display");
             } else {
