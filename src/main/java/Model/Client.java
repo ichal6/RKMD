@@ -20,4 +20,10 @@ public class Client extends UserAbstract {
         }
 
     }
+
+    public void removeFromBasket(Product deleteproduct){
+        if(basket.containsKey(deleteproduct)){
+            basket.remove(deleteproduct);
+        }
+    }
 }
