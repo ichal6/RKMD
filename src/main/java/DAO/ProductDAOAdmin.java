@@ -4,7 +4,7 @@ import Model.Product;
 
 public interface ProductDAOAdmin extends ProductDAO {
 
-    public void addProductToInventory(Product product);
+    public void addProductToInventory(Product product, Integer quantity);
 
     public void deleteProduct(Product product);
 
