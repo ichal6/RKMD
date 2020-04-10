@@ -9,7 +9,7 @@ public interface AdminDAO {
     public List<Admin> AdminList = new ArrayList<>();
 
     public void getAllAdmins();   // return type need to be change for List<Admin>
-    public void addAdmin();
+    public void addAdmin(String [] adminToAdd);
     public void updateAdmin();
     public void deleteAdmin();
 

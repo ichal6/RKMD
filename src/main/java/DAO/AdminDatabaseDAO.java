@@ -2,9 +2,10 @@ package DAO;
 
 import Model.Admin;
 
-import java.net.ConnectException;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,7 +16,7 @@ public class AdminDatabaseDAO implements AdminDAO {
     private String password = "polska";
     private List<Admin> AdminList;
 
-    public void getConnection(String query){
+    public void updateDB(String query){
         try {
             Connection con = DriverManager.getConnection(url, user, password);
             PreparedStatement pst = con.prepareStatement(query);
@@ -53,8 +54,26 @@ public class AdminDatabaseDAO implements AdminDAO {
 
 
     @Override
-    public void addAdmin() {
-
+    public void addAdmin(String [] adminToAdd) {
+        String date = getActualDate();
+        String AddToAccountDetailsStatement = String.format("INSERT INTO accountdetails VALUES (DEFAULT, '%s', '%s', '%s')",
+                date,
+                adminToAdd[2],
+                adminToAdd[3]);
+        String AddToUser_tableStatement = String.format("INSERT INTO User_table VALUES (DEFAULT, '%s', '%s', '%s', '%s', '%d', DEFAULT)",
+            adminToAdd[0],
+            adminToAdd[1],
+            adminToAdd[2],
+            adminToAdd[3],
+            Integer.parseInt(adminToAdd[4])
+            );
+        updateDB(AddToAccountDetailsStatement);
+        updateDB(AddToUser_tableStatement);
+    }
+    public String getActualDate(){
+        java.util.Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.format(date);
     }
 
     @Override
