@@ -2,6 +2,7 @@ package DAO;
 
 import Model.Admin;
 
+import java.net.ConnectException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +15,20 @@ public class AdminDatabaseDAO implements AdminDAO {
     private String password = "polska";
     private List<Admin> AdminList;
 
+    public void getConnection(String query){
+        try {
+            Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement pst = con.prepareStatement(query);
+            pst.executeUpdate();
+            con.close();
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void getAllAdmins() {
-
-
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement pst = con.prepareStatement("SELECT * FROM user_table");
              ResultSet rs = pst.executeQuery()) {
