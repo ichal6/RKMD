@@ -7,6 +7,14 @@ public abstract class UserAbstract {
     protected String login;
     protected String password;
 
+    public UserAbstract(String[] dataAboutClient){
+        ID = dataAboutClient[0];
+        name = dataAboutClient[1];
+        surname = dataAboutClient[2];
+        login = dataAboutClient[3];
+        password = dataAboutClient[4];
+    }
+
     public String getID() {
         return ID;
     }
