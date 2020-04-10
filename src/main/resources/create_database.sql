@@ -80,12 +80,8 @@ CREATE TABLE Customer_order(
 CONSTRAINT Customer_order_User_ID_fkey FOREIGN KEY (User_ID)
       REFERENCES User_table (User_ID) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-	
+
 CONSTRAINT Customer_order_Order_ID_fkey FOREIGN KEY (Order_ID)
       REFERENCES Order_Table (Order_ID) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
-
-
-
-

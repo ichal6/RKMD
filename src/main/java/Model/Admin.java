@@ -5,3 +5,4 @@ public class Admin extends UserAbstract {
         super(dataAboutClient);
     }
 }
+
