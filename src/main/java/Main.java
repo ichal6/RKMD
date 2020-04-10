@@ -18,13 +18,14 @@ public class Main {
         }
         String[] newAdmin = new String[5];
         newAdmin[0] = "Natalka";
-        newAdmin[1] = "Kowalska";
-        newAdmin[2] = "dariuszpass1";
+        newAdmin[1] = "Raba";
+        newAdmin[2] = "kaya";
         newAdmin[3] = "goracydariusz";
         newAdmin[4] = "1";
 
 //        db.addAdmin(newAdmin);
-            db.deleteAdmin(6);
+//            db.deleteAdmin(6);
+        db.updateAdmin(7,newAdmin);
     }
 
 }

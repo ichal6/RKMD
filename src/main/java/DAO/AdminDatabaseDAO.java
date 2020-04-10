@@ -36,9 +36,9 @@ public class AdminDatabaseDAO implements AdminDAO {
 
 
     public void deleteFromAccountDetails(Integer user_ID){
-        String query= String.format("DELETE FROM accountdetails WHERE accountdetails_id = '%d'" ,
+        String deleteStatement= String.format("DELETE FROM accountdetails WHERE accountdetails_id = '%d'" ,
                 user_ID);
-        updateDB(query);
+        updateDB(deleteStatement);
     }
 
 
@@ -52,7 +52,16 @@ public class AdminDatabaseDAO implements AdminDAO {
     }
 
 
-        @Override
+    public void updateAdminsAccountDetails(Integer acc_ID, String[] newAttributes){
+       String updateStatement = String.format("UPDATE accountdetails SET password = '%s', login = '%s' WHERE accountdetails_id = %d",
+            newAttributes[2],
+            newAttributes[3],
+            acc_ID);
+       updateDB(updateStatement);
+    }
+
+
+    @Override
     public void getAllAdmins() {
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement pst = con.prepareStatement("SELECT * FROM user_table");
@@ -89,8 +98,13 @@ public class AdminDatabaseDAO implements AdminDAO {
 
 
     @Override
-    public void updateAdmin() {
-
+    public void updateAdmin(Integer user_ID, String[] newAttributes) {
+        updateAdminsAccountDetails(user_ID, newAttributes);        //since accountdetail_ID will be always same as user_ID
+        String updateStatement = String.format("UPDATE user_table SET first_name = '%s', last_name = '%s' WHERE user_id = %d",
+               newAttributes[0],
+                newAttributes[1],
+                user_ID);
+        updateDB(updateStatement);
     }
 
     @Override
@@ -99,7 +113,6 @@ public class AdminDatabaseDAO implements AdminDAO {
         String deleteFromUserStatement = String.format("DELETE FROM User_table WHERE user_id = '%d'",
             user_ID);
         updateDB(deleteFromUserStatement);
-
     }
 
 
