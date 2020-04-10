@@ -15,3 +15,12 @@ INSERT INTO User_table VALUES (DEFAULT, 'Michal', 'Lechowicz','1', DEFAULT);
 
 INSERT INTO accountdetails VALUES (DEFAULT, '2020-04-10','dariuszpass1','goracydariusz');
 INSERT INTO User_table VALUES (DEFAULT, 'Dariusz', 'Raba','1', DEFAULT);
+
+INSERT INTO accountdetails VALUES (DEFAULT, '2020-04-10','adampass1','goracyadam');
+INSERT INTO User_table VALUES (DEFAULT, 'Adam', 'Mialczyk','0', DEFAULT);
+
+INSERT INTO accountdetails VALUES (DEFAULT, '2020-04-10','zawiszapass1','goracyzawisza');
+INSERT INTO User_table VALUES (DEFAULT, 'Zawisza', 'Czarny','0', DEFAULT);
+
+INSERT INTO accountdetails VALUES (DEFAULT, '2020-04-10','koniecswiata','straznik-kosmosu');
+INSERT INTO User_table VALUES (DEFAULT, 'Bazz', 'Astral','0', DEFAULT);
