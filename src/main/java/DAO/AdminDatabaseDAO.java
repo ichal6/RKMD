@@ -36,7 +36,7 @@ public class AdminDatabaseDAO implements AdminDAO {
 
 
     public void deleteFromAccountDetails(Integer user_ID){
-        String deleteStatement= String.format("DELETE FROM accountdetails WHERE accountdetails_id = '%d'" ,
+        String deleteStatement= String.format("DELETE FROM accountdetails WHERE accountdetails_id = %d" ,
                 user_ID);
         updateDB(deleteStatement);
     }
@@ -109,10 +109,10 @@ public class AdminDatabaseDAO implements AdminDAO {
 
     @Override
     public void deleteAdmin(Integer user_ID) {
-        deleteFromAccountDetails(user_ID);
         String deleteFromUserStatement = String.format("DELETE FROM User_table WHERE user_id = '%d'",
             user_ID);
         updateDB(deleteFromUserStatement);
+        deleteFromAccountDetails(user_ID);
     }
 
 
