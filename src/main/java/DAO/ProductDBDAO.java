@@ -44,7 +44,7 @@ public class ProductDBDAO implements ProductDAOAdmin {
         productsList.put(product, quantity);
     }
 
-//    public void display(){
+//    public void display() {
 //        for (HashMap.Entry<Product, Integer> product : productsList.entrySet()) {
 //            System.out.println(product.getKey().toString() + " " + product.getValue());
 //        }
@@ -88,22 +88,25 @@ public class ProductDBDAO implements ProductDAOAdmin {
     public HashMap<Product, Integer> searchProducts(String word) {
         productsList = new HashMap<>();
         String query =
-        "select * from bike_product where name like ? or cast(price as text) like ? or color like ?";
+                "select * from bike_product where name like ? or cast(price as text) like ? or color like ?";
 
         try {
             PreparedStatement preparedStatement = connectionToDB.prepareStatement(query);
-            preparedStatement.setString(1,word);
-            preparedStatement.setString(2,word);
-            preparedStatement.setString(3,word);
+            preparedStatement.setString(1, word);
+            preparedStatement.setString(2, word);
+            preparedStatement.setString(3, word);
             resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
-                Product product = new Product(resultSet);
-                Integer quantity = resultSet.getInt(6);
-                addProductToList(product,quantity,productsList);
+            if (resultSet.next() == false) {
+                System.out.println("No result to display");
+            } else {
+                while (resultSet.next()) {
+                    Product product = new Product(resultSet);
+                    Integer quantity = resultSet.getInt(6);
+                    addProductToList(product, quantity, productsList);
+                }
             }
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
