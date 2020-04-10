@@ -14,4 +14,14 @@ public class Client extends UserAbstract {
         super.login = dataAboutClient[3];
         super.password = dataAboutClient[4];
     }
+
+    public void addToBasket(Product newProduct){
+        if(basket.containsKey(newProduct)){
+            int count = basket.get(newProduct) + 1;
+            basket.put(newProduct, count);
+        }else{
+            basket.put(newProduct, 1);
+        }
+
+    }
 }
