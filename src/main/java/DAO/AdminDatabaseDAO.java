@@ -28,7 +28,31 @@ public class AdminDatabaseDAO implements AdminDAO {
     }
 
 
-    @Override
+    public String getActualDate(){
+        java.util.Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.format(date);
+    }
+
+
+    public void deleteFromAccountDetails(Integer user_ID){
+        String query= String.format("DELETE FROM accountdetails WHERE accountdetails_id = '%d'" ,
+                user_ID);
+        updateDB(query);
+    }
+
+
+    public void addAdminToAccountDetails(String [] adminToAdd){
+        String date = getActualDate();
+        String AddToAccountDetailsStatement = String.format("INSERT INTO accountdetails VALUES (DEFAULT, '%s', '%s', '%s')",
+                date,
+                adminToAdd[2],
+                adminToAdd[3]);
+        updateDB(AddToAccountDetailsStatement);
+    }
+
+
+        @Override
     public void getAllAdmins() {
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement pst = con.prepareStatement("SELECT * FROM user_table");
@@ -55,24 +79,14 @@ public class AdminDatabaseDAO implements AdminDAO {
 
     @Override
     public void addAdmin(String [] adminToAdd) {
-        String date = getActualDate();
-        String AddToAccountDetailsStatement = String.format("INSERT INTO accountdetails VALUES (DEFAULT, '%s', '%s', '%s')",
-                date,
-                adminToAdd[2],
-                adminToAdd[3]);
+        addAdminToAccountDetails(adminToAdd);
         String AddToUser_tableStatement = String.format("INSERT INTO User_table VALUES (DEFAULT, '%s', '%s', '%d', DEFAULT)",
             adminToAdd[0],
             adminToAdd[1],
-            Integer.parseInt(adminToAdd[4])
-            );
-        updateDB(AddToAccountDetailsStatement);
+            Integer.parseInt(adminToAdd[4]));
         updateDB(AddToUser_tableStatement);
     }
-    public String getActualDate(){
-        java.util.Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.format(date);
-    }
+
 
     @Override
     public void updateAdmin() {
@@ -81,12 +95,11 @@ public class AdminDatabaseDAO implements AdminDAO {
 
     @Override
     public void deleteAdmin(Integer user_ID) {
-    String deleteFromUserStatement = String.format("DELETE FROM User_table WHERE user_id = '%d'",
+        deleteFromAccountDetails(user_ID);
+        String deleteFromUserStatement = String.format("DELETE FROM User_table WHERE user_id = '%d'",
             user_ID);
-    String deleteFromAccountDetail = String.format("DELETE FROM accountdetails WHERE accountdetails_id = '%d'" ,
-                user_ID);
-    updateDB(deleteFromUserStatement);
-    updateDB(deleteFromAccountDetail);
+        updateDB(deleteFromUserStatement);
+
     }
 
 
