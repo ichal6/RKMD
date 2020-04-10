@@ -8,5 +8,5 @@ public interface ProductDAOAdmin extends ProductDAO {
 
     public void deleteProduct(Product product);
 
-    public void updateInventory(Product product);
+    public void updateInventory(Product product, Integer quantity);
 }
