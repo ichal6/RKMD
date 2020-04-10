@@ -8,10 +8,10 @@ public class Client extends UserAbstract {
 
     public Client(String[] dataAboutClient) {
         basket = new HashMap<>();
-        ID = dataAboutClient[0];
-        name = dataAboutClient[1];
-        surname = dataAboutClient[2];
-        login = dataAboutClient[3];
-        password = dataAboutClient[4];
+        super.ID = dataAboutClient[0];
+        super.name = dataAboutClient[1];
+        super.surname = dataAboutClient[2];
+        super.login = dataAboutClient[3];
+        super.password = dataAboutClient[4];
     }
 }
