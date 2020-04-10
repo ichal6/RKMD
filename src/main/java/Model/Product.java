@@ -12,6 +12,13 @@ public class Product {
     private String productColor;
     private String frameType;
 
+    public Product(String[] productAttributes){
+            this.productName = productAttributes[0];
+            this.productPrice = Integer.parseInt(productAttributes[1]);
+            this.productColor = productAttributes[2];
+            this.frameType = productAttributes[3];
+    }
+
     public Product(ResultSet resultSet) throws SQLException {
         int productId = 1;
         int productName = 2;
