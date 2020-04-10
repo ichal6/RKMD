@@ -23,8 +23,8 @@ public class Main {
         newAdmin[3] = "goracydariusz";
         newAdmin[4] = "1";
 
-        db.addAdmin(newAdmin);
-
+//        db.addAdmin(newAdmin);
+            db.deleteAdmin(6);
     }
 
 }

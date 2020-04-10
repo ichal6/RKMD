@@ -80,9 +80,15 @@ public class AdminDatabaseDAO implements AdminDAO {
     }
 
     @Override
-    public void deleteAdmin() {
-
+    public void deleteAdmin(Integer user_ID) {
+    String deleteFromUserStatement = String.format("DELETE FROM User_table WHERE user_id = '%d'",
+            user_ID);
+    String deleteFromAccountDetail = String.format("DELETE FROM accountdetails WHERE accountdetails_id = '%d'" ,
+                user_ID);
+    updateDB(deleteFromUserStatement);
+    updateDB(deleteFromAccountDetail);
     }
+
 
     @Override
     public List<Admin> getAdminList() {

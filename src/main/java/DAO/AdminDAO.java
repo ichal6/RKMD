@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface AdminDAO {
-    public List<Admin> AdminList = new ArrayList<>();
+     List<Admin> AdminList = new ArrayList<>();
 
-    public void getAllAdmins();   // return type need to be change for List<Admin>
-    public void addAdmin(String [] adminToAdd);
-    public void updateAdmin();
-    public void deleteAdmin();
+     void getAllAdmins();   // return type need to be change for List<Admin>
+     void addAdmin(String [] adminToAdd);
+     void updateAdmin();
+     void deleteAdmin(Integer user_ID);
 
-    public List<Admin> getAdminList();
+     List<Admin> getAdminList();
 }
