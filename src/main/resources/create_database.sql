@@ -62,8 +62,6 @@ CREATE TABLE User_table (
    	User_ID serial unique,
 	First_name varchar(25) NOT NULL,
 	Last_name varchar(25) NOT NULL,
-	Password varchar(25) NOT NULL,
-	Login varchar(25) NOT NULL,
 	Admin_user BIT NOT NULL,
 	Account_Details_ID serial,
 PRIMARY KEY (User_ID, Account_Details_ID),
