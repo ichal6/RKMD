@@ -46,5 +46,5 @@ public abstract class UserAbstract {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
 }
