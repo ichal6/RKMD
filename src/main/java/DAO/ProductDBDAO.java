@@ -3,11 +3,12 @@ package DAO;
 import Model.Product;
 
 import java.sql.*;
-import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class ProductDBDAO implements ProductDAOAdmin {
 
-    private HashMap<Product, Integer> productsList;
+    private TreeMap<Product, Integer> productsList;
     private Connection connectionToDB = null;
     private ResultSet resultSet;
     PreparedStatement preparedStatement;
@@ -31,7 +32,7 @@ public class ProductDBDAO implements ProductDAOAdmin {
     private ResultSet askForAllBikes() {
         try {
             Statement statement = connectionToDB.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM bike_product");
+            resultSet = statement.executeQuery("SELECT * FROM bike_product;");
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -39,12 +40,12 @@ public class ProductDBDAO implements ProductDAOAdmin {
         return resultSet;
     }
 
-    private void addProductToList(Product product, Integer quantity, HashMap<Product, Integer> productsList) {
+    private void addProductToList(Product product, Integer quantity, TreeMap<Product, Integer> productsList) {
         productsList.put(product, quantity);
     }
 
     public void display() {
-        for (HashMap.Entry<Product, Integer> product : productsList.entrySet()) {
+        for(Map.Entry<Product,Integer> product : productsList.entrySet()){
             System.out.println(product.getKey().toString() + " " + product.getValue());
         }
     }
@@ -145,8 +146,8 @@ public class ProductDBDAO implements ProductDAOAdmin {
     }
 
     @Override
-    public HashMap<Product, Integer> getAllProducts() {
-        productsList = new HashMap<>();
+    public TreeMap<Product, Integer> getAllProducts() {
+        productsList = new TreeMap<>();
         resultSet = askForAllBikes();
         try {
             while (resultSet.next()) {
@@ -161,8 +162,8 @@ public class ProductDBDAO implements ProductDAOAdmin {
     }
 
     @Override
-    public HashMap<Product, Integer> searchProducts(String word) {
-        productsList = new HashMap<>();
+    public void searchProducts(String word) {
+        productsList = new TreeMap<>();
         String query =
                 "select * from bike_product where name like ? or cast(price as text) like ? or color like ?";
         try {
@@ -185,7 +186,6 @@ public class ProductDBDAO implements ProductDAOAdmin {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
     }
 
     @Override
