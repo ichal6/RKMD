@@ -64,7 +64,7 @@ public class AdminDatabaseDAO implements AdminDAO {
     @Override
     public void getAllAdmins() {
         try (Connection con = DriverManager.getConnection(url, user, password);
-             PreparedStatement pst = con.prepareStatement("SELECT * FROM user_table WHERE admin_user = '1'");
+             PreparedStatement pst = con.prepareStatement("select user_id, first_name, last_name, login, password from user_table inner join accountdetails on user_table.account_details_id=accountdetails.accountdetails_id where admin_user = '1'");
              ResultSet rs = pst.executeQuery()) {
             int attributesNumber = rs.getMetaData().getColumnCount();
             AdminList = new ArrayList<>();
