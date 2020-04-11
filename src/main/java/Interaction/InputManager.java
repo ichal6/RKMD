@@ -13,9 +13,9 @@ public class InputManager {
 
     public String getStringInput(String message){
         view.print(message);
-        view.printEmptyCgar();
-        Scanner scnaFromUser = new Scanner(System.in);
-        String input = scnaFromUser.nextLine();
+        view.printEmptyChar();
+        Scanner scanFromUser = new Scanner(System.in);
+        String input = scanFromUser.nextLine();
 
         return input;
     }
