@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class Product {
+public class Product implements Comparable<Product>{
 
     private int productId;
     private String productName;
@@ -73,5 +73,10 @@ public class Product {
     @Override
     public String toString() {
         return productId + " " + productName + " " + productPrice + " " + productColor + " " + frameType;
+    }
+
+    @Override
+    public int compareTo(Product product) {
+        return this.getProductId() - product.getProductId();
     }
 }
