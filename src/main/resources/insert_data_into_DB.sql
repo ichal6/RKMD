@@ -16,3 +16,4 @@ INSERT INTO User_table VALUES (DEFAULT, 'Michal', 'Lechowicz','1', DEFAULT);
 
 INSERT INTO accountdetails VALUES (DEFAULT, '2020-04-10','dariuszpass1','goracydariusz');
 INSERT INTO User_table VALUES (DEFAULT, 'Dariusz', 'Raba','1', DEFAULT);
+
