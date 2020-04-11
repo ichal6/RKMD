@@ -10,5 +10,5 @@ public interface ProductDAO {
 
     public void searchProducts(String word);
 
-    public void decreaseQuantity(Product product);
+    public void decreaseQuantity(Product product, Integer quantity);
 }
