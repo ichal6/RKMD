@@ -1,11 +1,10 @@
 package View;
 
-import Model.Admin;
+import Model.Product;
 import Model.UserAbstract;
-import View.AbstractView;
-
-import java.sql.SQLOutput;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class TerminalView extends AbstractView {
 
@@ -22,6 +21,15 @@ public class TerminalView extends AbstractView {
             System.out.println(person.toString());
         }
     }
+
+    @Override
+    public void print(TreeMap<Product, Integer> productsList) {
+        for (Map.Entry<Product,Integer> product: productsList.entrySet()
+        ) {
+            System.out.println(product.getKey().toString() + " " + product.getValue());
+        }
+    }
+
 
     public void printEmptyChar(){
         System.out.println(" ");
