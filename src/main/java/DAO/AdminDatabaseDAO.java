@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.Admin;
+import Model.UserAbstract;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -14,7 +15,7 @@ public class AdminDatabaseDAO implements AdminDAO {
     private String url = "jdbc:postgresql://localhost:5432/online_shop";
     private String user = "dariusz";
     private String password = "polska";
-    private List<Admin> AdminList;
+    private List<UserAbstract> AdminList;
 
     private void updateDB(String query){
         try {
@@ -117,7 +118,7 @@ public class AdminDatabaseDAO implements AdminDAO {
 
 
     @Override
-    public List<Admin> getAdminList() {
+    public List<UserAbstract> getAdminList() {
         return AdminList;
     }
 }
