@@ -33,4 +33,15 @@ public class InputManager {
         input = scanFromUser.nextInt();
         return input;
     }
+    public String askForAttribute(String attribute){
+        String queryForUser = "";
+        String usersNewAttribute = "";
+        queryForUser = String.format("Could you please provide me with new %s?",
+                attribute);
+        usersNewAttribute = getStringInput(queryForUser);
+        while(usersNewAttribute.length()<1){
+            usersNewAttribute = getStringInput("Cannot be empty," + queryForUser);
+        }
+        return usersNewAttribute;
+    }
 }
