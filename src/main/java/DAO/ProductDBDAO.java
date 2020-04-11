@@ -50,12 +50,13 @@ public class ProductDBDAO implements ProductDAOAdmin {
         }
     }
     private boolean checkIfProductExistInList(Product product){
-        String query = "select * from bike_product where name like ? and color like ? and Type_of_frame like ?";
+        String query = "select * from bike_product where name like ? and price = ? and color like ? and Type_of_frame like ?;";
         try {
             PreparedStatement preparedStatement = connectionToDB.prepareStatement(query);
             preparedStatement.setString(1,product.getProductName());
-            preparedStatement.setString(2,product.getColor());
-            preparedStatement.setString(3,product.getFrameType());
+            preparedStatement.setFloat(2, product.getPrice());
+            preparedStatement.setString(3,product.getColor());
+            preparedStatement.setString(4,product.getFrameType());
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 return true;
@@ -108,9 +109,11 @@ public class ProductDBDAO implements ProductDAOAdmin {
                 preparedStatement.setInt(5,quantity);
                 preparedStatement.executeUpdate();
             } catch (SQLException throwables) {
+
                 throwables.printStackTrace();
             }
         }else{
+            System.out.println("update");
             updateInventory(product,quantity);
 //            System.out.println("Product is already in list.");
         }
@@ -171,7 +174,6 @@ public class ProductDBDAO implements ProductDAOAdmin {
             preparedStatement.setString(1, word);
             preparedStatement.setString(2, word);
             preparedStatement.setString(3, word);
-
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next() == false) {
