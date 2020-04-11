@@ -1,4 +1,59 @@
 package Controller;
 
+
+import DAO.ProductDAO;
+import Interaction.InputManager;
+import View.AbstractView;
+
 public class ControllerShop {
+    private AbstractView view;
+    private InputManager input;
+    private ProductDAO dao;
+    private String[] menuContent = new String[4];
+    private String label = "Welcome to our shop";
+
+    public ControllerShop(AbstractView view, InputManager input) {
+        this.view = view;
+        this.input = input;
+        fillMenuContent();
+    }
+
+    public void searchProducts() {
+    }
+
+    public void executeOrder() {
+    }
+
+    private void fillMenuContent() {
+        menuContent[0] = "0. Log out";
+        menuContent[1] = "1. Search product";
+        menuContent[2] = "2. Display basket";
+        menuContent[3] = "3. Checkout";
+    }
+
+    private boolean switchController() {
+        Integer inputInt = input.getIntInput("Please provide option.");
+        switch (inputInt) {
+            case 0:
+                return false;
+            case 1:
+                dao.searchProducts("asd");
+
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
+        return true;
+    }
+
+    public void run() {
+        boolean isRun = true;
+        do {
+            view.print(menuContent, label);
+            isRun = switchController();
+        } while (isRun);
+
+    }
 }
