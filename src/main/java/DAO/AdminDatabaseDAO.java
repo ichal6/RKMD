@@ -28,21 +28,21 @@ public class AdminDatabaseDAO implements AdminDAO {
     }
 
 
-    public String getActualDate(){
+    private String getActualDate(){
         java.util.Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.format(date);
     }
 
 
-    public void deleteFromAccountDetails(Integer user_ID){
+    private void deleteFromAccountDetails(Integer user_ID){
         String deleteStatement= String.format("DELETE FROM accountdetails WHERE accountdetails_id = %d" ,
                 user_ID);
         updateDB(deleteStatement);
     }
 
 
-    public void addAdminToAccountDetails(String [] adminToAdd){
+    private void addAdminToAccountDetails(String [] adminToAdd){
         String date = getActualDate();
         String AddToAccountDetailsStatement = String.format("INSERT INTO accountdetails VALUES (DEFAULT, '%s', '%s', '%s')",
                 date,
@@ -52,7 +52,7 @@ public class AdminDatabaseDAO implements AdminDAO {
     }
 
 
-    public void updateAdminsAccountDetails(Integer acc_ID, String[] newAttributes){
+    private void updateAdminsAccountDetails(Integer acc_ID, String[] newAttributes){
        String updateStatement = String.format("UPDATE accountdetails SET password = '%s', login = '%s' WHERE accountdetails_id = %d",
             newAttributes[2],
             newAttributes[3],
@@ -66,20 +66,20 @@ public class AdminDatabaseDAO implements AdminDAO {
         try (Connection con = DriverManager.getConnection(url, user, password);
              PreparedStatement pst = con.prepareStatement("select user_id, first_name, last_name, login, password from user_table inner join accountdetails on user_table.account_details_id=accountdetails.accountdetails_id where admin_user = '1'");
              ResultSet rs = pst.executeQuery()) {
+
             int attributesNumber = rs.getMetaData().getColumnCount();
             AdminList = new ArrayList<>();
             String[] adminAttributes = new String[attributesNumber];
+
             while (rs.next()) {
-            for(int index = 0;index < attributesNumber; index++){
-                adminAttributes[index] = rs.getString(index+1);
+                for(int index = 0;index < attributesNumber; index++){
+                    adminAttributes[index] = rs.getString(index+1);
             }
             Admin admin = new Admin(adminAttributes);
             AdminList.add(admin);
             con.close();
             }
-
         } catch (SQLException ex) {
-
             Logger lgr = Logger.getLogger(AdminDatabaseDAO.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
         }
