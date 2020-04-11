@@ -14,4 +14,7 @@ public interface ClientsDAO {
     void deleteClient(Integer user_ID);
 
     List<Client> getClientList();
+
+    boolean checkIsClient(String login, String password);
+    Client getClient(String login, String password);
 }

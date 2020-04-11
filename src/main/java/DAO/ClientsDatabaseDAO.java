@@ -17,30 +17,30 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     private String password = "konrado";
     private List<Client> ClientList;
 
-    public void updateDB(String query){
+    public void updateDB(String query) {
         try {
             Connection con = DriverManager.getConnection(url, user, password);
             PreparedStatement pst = con.prepareStatement(query);
             pst.executeUpdate();
             con.close();
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private String getActualDate(){
+    private String getActualDate() {
         java.util.Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.format(date);
     }
 
-    private void deleteFromAccountDetails(Integer user_ID){
-        String deleteStatement= String.format("DELETE FROM accountdetails WHERE accountdetails_id = %d" ,
+    private void deleteFromAccountDetails(Integer user_ID) {
+        String deleteStatement = String.format("DELETE FROM accountdetails WHERE accountdetails_id = %d",
                 user_ID);
         updateDB(deleteStatement);
     }
 
-    private void addClientToAccountDetails(String [] clientToAdd){
+    private void addClientToAccountDetails(String[] clientToAdd) {
         String date = getActualDate();
         String AddToAccountDetailsStatement = String.format("INSERT INTO accountdetails VALUES (DEFAULT, '%s', '%s', '%s')",
                 date,
@@ -49,7 +49,7 @@ public class ClientsDatabaseDAO implements ClientsDAO {
         updateDB(AddToAccountDetailsStatement);
     }
 
-    private void updateClientsAccountDetails(Integer acc_ID, String[] newAttributes){
+    private void updateClientsAccountDetails(Integer acc_ID, String[] newAttributes) {
         String updateStatement = String.format("UPDATE accountdetails SET password = '%s', login = '%s' WHERE accountdetails_id = %d",
                 newAttributes[2],
                 newAttributes[3],
@@ -69,8 +69,8 @@ public class ClientsDatabaseDAO implements ClientsDAO {
             String[] adminAttributes = new String[attributesNumber];
 
             while (rs.next()) {
-                for(int index = 0;index < attributesNumber; index++){
-                    adminAttributes[index] = rs.getString(index+1);
+                for (int index = 0; index < attributesNumber; index++) {
+                    adminAttributes[index] = rs.getString(index + 1);
                 }
                 Client client = new Client(adminAttributes);
                 ClientList.add(client);
@@ -114,5 +114,16 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     @Override
     public List<Client> getClientList() {
         return ClientList;
+    }
+
+    @Override
+    public boolean checkIsClient(String login, String password) {
+
+        return false;
+    }
+
+    @Override
+    public Client getClient(String login, String password) {
+        return null;
     }
 }
