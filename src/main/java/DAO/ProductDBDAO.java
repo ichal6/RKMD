@@ -113,9 +113,7 @@ public class ProductDBDAO implements ProductDAOAdmin {
                 throwables.printStackTrace();
             }
         }else{
-            System.out.println("update");
             updateInventory(product,quantity);
-//            System.out.println("Product is already in list.");
         }
     }
 
@@ -191,7 +189,19 @@ public class ProductDBDAO implements ProductDAOAdmin {
     }
 
     @Override
-    public void decreaseQuantity(Product product) {
-
+    public void decreaseQuantity(Product product,Integer quantity) {
+        Integer currentQuantity =  getCurrentQuantity(product);
+        Integer newQuantity = currentQuantity - quantity;
+        String query = "update bike_product set Quantity = ? where name = ? and color = ? and Type_of_frame = ?";
+        try {
+            preparedStatement = connectionToDB.prepareStatement(query);
+            preparedStatement.setInt(1,newQuantity);
+            preparedStatement.setString(2,product.getProductName());
+            preparedStatement.setString(3,product.getColor());
+            preparedStatement.setString(4,product.getFrameType());
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
