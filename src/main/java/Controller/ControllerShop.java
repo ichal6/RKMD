@@ -9,19 +9,28 @@ public class ControllerShop {
     private AbstractView view;
     private InputManager input;
     private ProductDAO dao;
+    private ControllerClient controllerClient;
     private String[] menuContent = new String[4];
     private String label = "Welcome to our shop";
 
     public ControllerShop(AbstractView view, InputManager input) {
+        controllerClient = new ControllerClient(view, input);
         this.view = view;
         this.input = input;
         fillMenuContent();
+
     }
 
     public void searchProducts() {
     }
 
     public void executeOrder() {
+    }
+
+    private boolean tryToLogIn() {
+        String login = input.getStringInput("Please insert your login");
+        String passw = input.getStringInput("Please insert your password");
+        return controllerClient.logIn(login, passw);
     }
 
     private void fillMenuContent() {
@@ -38,22 +47,26 @@ public class ControllerShop {
                 return false;
             case 1:
                 dao.searchProducts("asd");
-
                 break;
             case 2:
+                view.print(controllerClient.getBasket());
                 break;
             case 3:
+
                 break;
         }
         return true;
     }
 
     public void run() {
+        boolean isLogIn = false;
+        while (!isLogIn){
+            isLogIn = tryToLogIn();
+        }
         boolean isRun = true;
         do {
             view.print(menuContent, label);
             isRun = switchController();
         } while (isRun);
-
     }
 }
