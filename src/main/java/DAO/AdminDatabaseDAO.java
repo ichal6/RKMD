@@ -16,7 +16,7 @@ public class AdminDatabaseDAO implements AdminDAO {
     private String password = "polska";
     private List<Admin> AdminList;
 
-    public void updateDB(String query){
+    private void updateDB(String query){
         try {
             Connection con = DriverManager.getConnection(url, user, password);
             PreparedStatement pst = con.prepareStatement(query);
