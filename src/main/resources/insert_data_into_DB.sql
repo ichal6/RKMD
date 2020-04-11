@@ -1,10 +1,8 @@
-
 INSERT INTO bike_product VAlUES (DEFAULT,'Kross',1999,'Blue','M',11);
 INSERT INTO bike_product VAlUES (DEFAULT,'Romet',1499,'Red','M',8);
 INSERT INTO bike_product VAlUES (DEFAULT,'Wigry',899,'Black','F',6);
 INSERT INTO bike_product VAlUES (DEFAULT,'BMX',2499,'White','M',5);
 INSERT INTO bike_product VAlUES (DEFAULT,'Skladak',499,'Black-white','F',7);
-
 
 
 INSERT INTO accountdetails VALUES (DEFAULT, '2020-04-10','konradpass1','goracykonrad');
@@ -19,6 +17,8 @@ INSERT INTO User_table VALUES (DEFAULT, 'Michal', 'Lechowicz','1', DEFAULT);
 INSERT INTO accountdetails VALUES (DEFAULT, '2020-04-10','dariuszpass1','goracydariusz');
 INSERT INTO User_table VALUES (DEFAULT, 'Dariusz', 'Raba','1', DEFAULT);
 
+
+
 INSERT INTO accountdetails VALUES (DEFAULT, '2020-04-10','adampass1','goracyadam');
 INSERT INTO User_table VALUES (DEFAULT, 'Adam', 'Mialczyk','0', DEFAULT);
 
@@ -27,4 +27,3 @@ INSERT INTO User_table VALUES (DEFAULT, 'Zawisza', 'Czarny','0', DEFAULT);
 
 INSERT INTO accountdetails VALUES (DEFAULT, '2020-04-10','koniecswiata','straznik-kosmosu');
 INSERT INTO User_table VALUES (DEFAULT, 'Bazz', 'Astral','0', DEFAULT);
-

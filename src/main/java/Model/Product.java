@@ -4,13 +4,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class Product {
+public class Product implements Comparable<Product>{
 
     private int productId;
     private String productName;
     private float productPrice;
     private String productColor;
     private String frameType;
+
+    public Product(String[] productAttributes){
+            this.productName = productAttributes[0];
+            this.productPrice = Integer.parseInt(productAttributes[1]);
+            this.productColor = productAttributes[2];
+            this.frameType = productAttributes[3];
+    }
 
     public Product(ResultSet resultSet) throws SQLException {
         int productId = 1;
@@ -61,5 +68,16 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(productId, productName, productPrice, productColor, frameType);
+    }
+
+    @Override
+    public String toString() {
+        return productId + " " + productName + " " + productPrice + " " + productColor + " " + frameType;
+    }
+
+    @Override
+    public int compareTo(Product product) {
+//        return this.productName.compareTo(product.productName);
+        return this.getProductId() - product.getProductId();
     }
 }

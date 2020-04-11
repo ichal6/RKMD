@@ -2,12 +2,13 @@ package DAO;
 
 import Model.Product;
 
-import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.TreeMap;
 
 public interface ProductDAO {
-    public ResultSet getAllProducts();
+    public TreeMap<Product,Integer> getAllProducts();
 
-    public ResultSet searchProducts();
+    public void searchProducts(String word);
 
-    public void decreaseQuantity(Product product);
+    public void decreaseQuantity(Product product, Integer quantity);
 }
