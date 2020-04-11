@@ -10,7 +10,7 @@ public class ProductDBDAO implements ProductDAOAdmin {
     private HashMap<Product, Integer> productsList;
     private Connection connectionToDB = null;
     private ResultSet resultSet;
-
+    PreparedStatement preparedStatement;
     public ProductDBDAO() {
         connectToDB();
     }
@@ -66,7 +66,6 @@ public class ProductDBDAO implements ProductDAOAdmin {
     }
     public Integer getCurrentQuantity(Product product){
         Integer currentQuantity = 0;
-        PreparedStatement preparedStatement;
         String query =
                 "select Quantity from bike_product where name like ? or color like ?";
         try {
@@ -117,19 +116,25 @@ public class ProductDBDAO implements ProductDAOAdmin {
     }
 
     @Override
-    public void deleteProduct(Product product) {
-
+    public void deleteProduct(Integer id) {
+        String query = "delete from bike_product where Product_ID = ?";
+        try {
+            preparedStatement = connectionToDB.prepareStatement(query);
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
     public void updateInventory(Product product, Integer quantity) {
-        PreparedStatement preparedStatement;
         Integer currentQuantity =  getCurrentQuantity(product);
-        Integer newquantity = currentQuantity + quantity;
+        Integer newQuantity = currentQuantity + quantity;
         String query = "update bike_product set Quantity = ? where name = ? and color = ? and Type_of_frame = ?";
         try {
             preparedStatement = connectionToDB.prepareStatement(query);
-            preparedStatement.setInt(1,newquantity);
+            preparedStatement.setInt(1,newQuantity);
             preparedStatement.setString(2,product.getProductName());
             preparedStatement.setString(3,product.getColor());
             preparedStatement.setString(4,product.getFrameType());
