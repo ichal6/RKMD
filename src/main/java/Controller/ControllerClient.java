@@ -1,6 +1,7 @@
 package Controller;
 
 import DAO.ClientsDAO;
+import DAO.ClientsDatabaseDAO;
 import Interaction.InputManager;
 import Model.Client;
 import Model.Product;
@@ -14,9 +15,10 @@ public class ControllerClient {
     private ClientsDAO dao;
     private Client client;
 
-    public ControllerClient(AbstractView view, InputManager input) {
+    public ControllerClient(AbstractView view, InputManager input, ClientsDAO dao) {
         this.view = view;
         this.input = input;
+        this.dao = dao;
     }
 
     private void addToBasket(Product product, Integer quantity){

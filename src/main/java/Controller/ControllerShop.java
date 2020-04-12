@@ -1,6 +1,7 @@
 package Controller;
 
 
+import DAO.ClientsDatabaseDAO;
 import DAO.ProductDAO;
 import Interaction.InputManager;
 import View.AbstractView;
@@ -14,7 +15,7 @@ public class ControllerShop {
     private String label = "Welcome to our shop";
 
     public ControllerShop(AbstractView view, InputManager input) {
-        controllerClient = new ControllerClient(view, input);
+        controllerClient = new ControllerClient(view, input, new ClientsDatabaseDAO());
         this.view = view;
         this.input = input;
         fillMenuContent();
@@ -28,8 +29,8 @@ public class ControllerShop {
     }
 
     private boolean tryToLogIn() {
-        String login = input.getStringInput("Please insert your login");
-        String passw = input.getStringInput("Please insert your password");
+        String login = "straznik-kosmosu";//input.getStringInput("Please insert your login");
+        String passw = "koniecswiata";//input.getStringInput("Please insert your password");
         return controllerClient.logIn(login, passw);
     }
 

@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 public class ClientsDatabaseDAO implements ClientsDAO {
 
     private String url = "jdbc:postgresql://localhost:5432/online_shop";
-    private String user = "konrad";
-    private String password = "konrado";
+    private String user = "michael";
+    private String password = "1234";
     private List<Client> ClientList;
 
     public void updateDB(String query) {
@@ -118,12 +118,49 @@ public class ClientsDatabaseDAO implements ClientsDAO {
 
     @Override
     public boolean checkIsClient(String login, String password) {
+        try (Connection con = DriverManager.getConnection(this.url, this.user, this.password);
+             PreparedStatement pst = con.prepareStatement(
+                     "select user_id, first_name, last_name, login, password from user_table inner join accountdetails on user_table.account_details_id=accountdetails.accountdetails_id where admin_user = '0' and login = ? and password = ?");
+             ) {
+            pst.setString(1, login);
+            pst.setString(2, password);
+            ResultSet rs = pst.executeQuery();
 
+            if(rs.next()) {
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(AdminDatabaseDAO.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
         return false;
     }
 
     @Override
     public Client getClient(String login, String password) {
+        try (Connection con = DriverManager.getConnection(this.url, this.user, this.password);
+             PreparedStatement pst = con.prepareStatement(
+                     "select user_id, first_name, last_name, login, password from user_table inner join accountdetails on user_table.account_details_id=accountdetails.accountdetails_id where admin_user = '0' and login = ? and password = ?");
+        ) {
+            pst.setString(1, login);
+            pst.setString(2, password);
+            ResultSet rs = pst.executeQuery();
+
+            int attributesNumber = rs.getMetaData().getColumnCount();
+
+            String[] adminAttributes = new String[attributesNumber];
+
+            if (rs.next()) {
+                for (int index = 0; index < attributesNumber; index++) {
+                    adminAttributes[index] = rs.getString(index + 1);
+                }
+                return new Client(adminAttributes);
+            }
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(AdminDatabaseDAO.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
         return null;
     }
+
 }
