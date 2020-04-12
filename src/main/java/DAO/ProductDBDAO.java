@@ -17,8 +17,8 @@ public class ProductDBDAO implements ProductDAOAdmin {
     }
 
     String url = "jdbc:postgresql://localhost:5432/online_shop";
-    String user = "rafal";
-    String password = "rafal";
+    String user = "michael";
+    String password = "1234";
 
     private Connection connectToDB() {
         try {

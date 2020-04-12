@@ -14,15 +14,17 @@ public class ControllerShop {
     private String[] menuContent = new String[4];
     private String label = "Welcome to our shop";
 
-    public ControllerShop(AbstractView view, InputManager input) {
+    public ControllerShop(AbstractView view, InputManager input, ProductDAO dao) {
         controllerClient = new ControllerClient(view, input, new ClientsDatabaseDAO());
         this.view = view;
         this.input = input;
+        this.dao = dao;
         fillMenuContent();
 
     }
 
     public void searchProducts() {
+
     }
 
     public void executeOrder() {
