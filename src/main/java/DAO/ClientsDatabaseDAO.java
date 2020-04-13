@@ -2,11 +2,13 @@ package DAO;
 
 import Model.Client;
 
+import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,6 +18,14 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     private String user = "michael";
     private String password = "1234";
     private List<Client> ClientList;
+
+    public ClientsDatabaseDAO() throws IOException {
+        Properties prop = loginData.readProperties("src/main/resources/database.properties");
+        url = prop.getProperty("db.url");
+        user = prop.getProperty("db.user");
+        password = prop.getProperty("db.passwd");
+    }
+
 
     public void updateDB(String query) {
         try {

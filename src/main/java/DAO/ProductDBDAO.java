@@ -2,8 +2,10 @@ package DAO;
 
 import Model.Product;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
 
 public class ProductDBDAO implements ProductDAOAdmin {
@@ -12,13 +14,19 @@ public class ProductDBDAO implements ProductDAOAdmin {
     private Connection connectionToDB = null;
     private ResultSet resultSet;
     PreparedStatement preparedStatement;
-    public ProductDBDAO() {
-        connectToDB();
-    }
-
     String url = "jdbc:postgresql://localhost:5432/online_shop";
     String user = "michael";
     String password = "1234";
+
+    public ProductDBDAO() throws IOException {
+        Properties prop = loginData.readProperties("src/main/resources/database.properties");
+        url = prop.getProperty("db.url");
+        user = prop.getProperty("db.user");
+        password = prop.getProperty("db.passwd");
+        connectToDB();
+    }
+
+
 
     private Connection connectToDB() {
         try {

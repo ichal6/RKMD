@@ -7,6 +7,7 @@ import Interaction.InputManager;
 import Model.Product;
 import View.AbstractView;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -19,7 +20,7 @@ public class ControllerShop {
     private String[] menuContent = new String[4];
     private String label = "Welcome to our shop";
 
-    public ControllerShop(AbstractView view, InputManager input, ProductDAO dao) {
+    public ControllerShop(AbstractView view, InputManager input, ProductDAO dao) throws IOException {
         controllerClient = new ControllerClient(view, input, new ClientsDatabaseDAO());
         this.view = view;
         this.input = input;

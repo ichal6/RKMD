@@ -3,10 +3,18 @@ import DAO.ProductDBDAO;
 import Interaction.InputManager;
 import View.TerminalView;
 
+import java.io.IOException;
+
 public class Main {
 
     public static void main(String[] args) {
-        ControllerShop shop =  new ControllerShop(new TerminalView(),new InputManager(), new ProductDBDAO());
-        shop.run();
+        ControllerShop shop = null;
+        try {
+            shop = new ControllerShop(new TerminalView(),new InputManager(), new ProductDBDAO());
+            shop.run();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
