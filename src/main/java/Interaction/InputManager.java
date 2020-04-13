@@ -21,7 +21,7 @@ public class InputManager {
         return input;
     }
 
-    private int getIntInput(String message){
+    public int getIntInput(String message){
         view.print(message);
         view.printEmptyChar();
         int input = 0;

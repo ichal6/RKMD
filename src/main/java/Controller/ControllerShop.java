@@ -79,13 +79,13 @@ public class ControllerShop {
     }
 
     private boolean switchController() {
-        Integer inputInt =  1;//input.getIntInput("Please provide option.");
+        Integer inputInt = input.getIntInput("Please provide option.");
         switch (inputInt) {
             case 0:
                 return false;
             case 1:
                 chooseProduct(searchProducts());
-                //break;
+                break;
             case 2:
                 view.print(controllerClient.getBasket());
                 break;
@@ -93,8 +93,7 @@ public class ControllerShop {
                 executeOrder();
                 break;
         }
-        return false;
-        //return true;
+        return true;
     }
 
     public void run() {
