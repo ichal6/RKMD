@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.Client;
+import Model.UserAbstract;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -15,7 +16,7 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     private String url = "jdbc:postgresql://localhost:5432/online_shop";
     private String user = "dariusz";
     private String password = "polska";
-    private List<Client> ClientList;
+    private List<UserAbstract> ClientList;
 
     public void updateDB(String query){
         try {
@@ -112,7 +113,7 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     }
 
     @Override
-    public List<Client> getClientList() {
+    public List<UserAbstract> getClientList() {
         return ClientList;
     }
 }

@@ -33,4 +33,50 @@ public class ControllerAdmin {
         menuContent[6] = "6. Delete Product";
 
     }
+    public boolean tryToLogIn(){
+        String login = "goracykonrad";
+        String password = "konradpass1";
+        return adminDAO.checkIsAdmin(login, password);
+    }
+
+    private String[] newProductAttributes(){
+    String[] attributes = new String[4];
+    return attributes;
+    }
+
+
+    private boolean switchController(){
+        Integer inputuser = input.getIntInput("Please provide with option to choose");
+        switch (inputuser){
+            case 0:
+                return false;
+            case 1:
+                adminDAO.getAllAdmins();
+                view.print(adminDAO.getAdminList());
+                break;
+            case 2:
+                clientDAO.getAllClients();
+                view.print(clientDAO.getClientList());
+                break;
+            case 3:
+                view.print(productDAOAdmin.getAllProducts());
+                break;
+            case 4:
+
+        }
+        return true;
+    }
+
+    public void run() {
+        boolean isLogIn = false;
+        while (!isLogIn){
+            isLogIn = tryToLogIn();
+        }
+        boolean isRun = true;
+        do {
+//            view.print(menuContent);
+            System.out.println("please chose 1");
+            isRun = switchController();
+        } while (isRun);
+    }
 }
