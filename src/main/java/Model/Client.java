@@ -25,6 +25,10 @@ public class Client extends UserAbstract {
         basket.remove(deleteProduct);
     }
 
+    public void clearBasket(){
+        basket.clear();
+    }
+
     public HashMap<Product, Integer> getBasket() {
         return basket;
     }

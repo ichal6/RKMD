@@ -25,6 +25,10 @@ public class ControllerClient {
         client.addToBasket(product,quantity);
     }
 
+    public void clearBasket(){
+        client.clearBasket();
+    }
+
     public HashMap<Product,Integer> getBasket(){
         return client.getBasket();
     }
