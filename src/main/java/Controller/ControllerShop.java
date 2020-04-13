@@ -4,7 +4,10 @@ package Controller;
 import DAO.ClientsDatabaseDAO;
 import DAO.ProductDAO;
 import Interaction.InputManager;
+import Model.Product;
 import View.AbstractView;
+
+import java.util.TreeMap;
 
 public class ControllerShop {
     private AbstractView view;
@@ -23,8 +26,10 @@ public class ControllerShop {
 
     }
 
-    public void searchProducts() {
-
+    public TreeMap<Product, Integer> searchProducts() {
+        view.print("Please insert phrase to search: ");
+        String wordToSearch = "Kross"; // here It have to input
+        return dao.searchProducts(wordToSearch);
     }
 
     public void executeOrder() {
@@ -49,7 +54,7 @@ public class ControllerShop {
             case 0:
                 return false;
             case 1:
-                dao.searchProducts("asd");
+                searchProducts();
                 break;
             case 2:
                 view.print(controllerClient.getBasket());

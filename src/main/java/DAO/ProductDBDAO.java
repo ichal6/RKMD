@@ -163,7 +163,7 @@ public class ProductDBDAO implements ProductDAOAdmin {
     }
 
     @Override
-    public void searchProducts(String word) {
+    public TreeMap<Product, Integer> searchProducts(String word) {
         productsList = new TreeMap<>();
         String query =
                 "select * from bike_product where name like ? or cast(price as text) like ? or color like ?";
@@ -174,18 +174,15 @@ public class ProductDBDAO implements ProductDAOAdmin {
             preparedStatement.setString(3, word);
             resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next() == false) {
-                System.out.println("No result to display");
-            } else {
-                while (resultSet.next()) {
-                    Product product = new Product(resultSet);
-                    Integer quantity = resultSet.getInt(6);
-                    addProductToList(product, quantity, productsList);
-                }
+            while (resultSet.next()) {
+                Product product = new Product(resultSet);
+                Integer quantity = resultSet.getInt(6);
+                addProductToList(product, quantity, productsList);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return productsList;
     }
 
     @Override
