@@ -4,7 +4,10 @@ import DAO.AdminDAO;
 import DAO.ClientsDAO;
 import DAO.ProductDAOAdmin;
 import Interaction.InputManager;
+import Model.Product;
 import View.AbstractView;
+
+import java.util.TreeMap;
 
 public class ControllerAdmin {
     private AbstractView view;
@@ -41,6 +44,10 @@ public class ControllerAdmin {
 
     private String[] newProductAttributes(){
     String[] attributes = new String[4];
+    attributes[0] = input.getStringInput("Please provide with new product name");
+    attributes[1] = String.valueOf(input.getIntInput("Please provide with new product price"));
+    attributes[2] = input.getStringInput("Please provide with new product color");
+    attributes[3] = input.getStringInput("Please provide with new product frame M/F");
     return attributes;
     }
 
@@ -62,6 +69,27 @@ public class ControllerAdmin {
                 view.print(productDAOAdmin.getAllProducts());
                 break;
             case 4:
+                Product newProduct = new Product(newProductAttributes());
+                int quantity = input.getIntInput("Please provide with quantity of product");
+                productDAOAdmin.addProductToInventory(newProduct, quantity);
+                break;
+            case 5:
+                System.out.println("update product");
+                int updateQuantity = input.getIntInput("Please provide with negative number or positive number to update quantity od product in inventory");
+                String word = input.getStringInput("Please provide searching product");
+                productDAOAdmin.searchProducts(word);
+                TreeMap<Product, Integer> product = productDAOAdmin.getProductsList();
+                Product updateProduct = product.firstKey();
+                if(updateQuantity>0){
+                    productDAOAdmin.updateInventory(updateProduct, updateQuantity);
+                }else{
+                    productDAOAdmin.decreaseQuantity(updateProduct, updateQuantity);
+                }
+                break;
+            case 6:
+                int ID = input.getIntInput("Please provide product ID to be delete");
+                productDAOAdmin.deleteProduct(ID);
+                break;
 
         }
         return true;
