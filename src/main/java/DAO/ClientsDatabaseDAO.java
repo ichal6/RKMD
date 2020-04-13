@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 public class ClientsDatabaseDAO implements ClientsDAO {
 
     private String url = "jdbc:postgresql://localhost:5432/online_shop";
-    private String user = "konrad";
-    private String password = "konrado";
+    private String user = "dariusz";
+    private String password = "polska";
     private List<Client> ClientList;
 
     public void updateDB(String query){
