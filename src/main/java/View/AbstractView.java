@@ -1,34 +1,35 @@
 package View;
 
 import Model.Product;
+import Model.UserAbstract;
+
+import java.util.List;
+import java.util.TreeMap;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
+
 
 public abstract class AbstractView {
 
-    public AbstractView(){
+    public abstract void print(String message);
 
-    }
-    public void print(String[] menuContent, String label){
+    public abstract void print(List<UserAbstract> PersonsList);
+
+    public abstract void print(TreeMap<Product, Integer> productsList);
+
+    public void print(String[] menuContent, String label) {
         System.out.println(label);
-        System.out.println(menuContent);
-    }
-
-    public void print(HashMap<Product,Integer> basket) {
-        for(Map.Entry<Product,Integer> product : basket.entrySet()){
-            System.out.println(product.getKey().toString() + " " + product.getValue());
+        for (String menuItem : menuContent) {
+            System.out.println(menuItem);
         }
     }
 
-    public void print(String s) {
-        System.out.println(s);
-    }
-
-    public void print(TreeMap<Product, Integer> allProducts) {
-        for(Map.Entry<Product,Integer> product : allProducts.entrySet()){
+    public void print(HashMap<Product, Integer> basket) {
+        for (Map.Entry<Product, Integer> product : basket.entrySet()) {
             System.out.println(product.getKey().toString() + " " + product.getValue());
         }
     }
 }
+
+

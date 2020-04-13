@@ -1,11 +1,48 @@
 package Interaction;
 
+import View.TerminalView;
+
+import java.util.Scanner;
+
 public class InputManager {
-    public Integer getIntInput(String s) {
-        return 0;
+
+    private TerminalView view;
+
+    public InputManager(){
+        view = new TerminalView();
     }
 
-    public String getStringInput(String please_insert_your_login) {
-        return "string";
+    public String getStringInput(String message){
+        view.print(message);
+        view.printEmptyChar();
+        Scanner scanFromUser = new Scanner(System.in);
+        String input = scanFromUser.nextLine();
+
+        return input;
+    }
+
+    private int getIntInput(String message){
+        view.print(message);
+        view.printEmptyChar();
+        int input = 0;
+        Scanner scanFromUser = new Scanner(System.in);
+
+        while(!scanFromUser.hasNextInt()){
+            view.print("Wrong input! Please insert the integer number.");
+            scanFromUser.next();
+        }
+        input = scanFromUser.nextInt();
+        return input;
+    }
+    public String askForAttribute(String attribute){
+        String queryForUser = "";
+        String usersNewAttribute = "";
+        queryForUser = String.format("Could you please provide me with new %s?",
+                attribute);
+        usersNewAttribute = getStringInput(queryForUser);
+        while(usersNewAttribute.length()<1){
+            usersNewAttribute = getStringInput("Cannot be empty," + queryForUser);
+        }
+        return usersNewAttribute;
     }
 }
