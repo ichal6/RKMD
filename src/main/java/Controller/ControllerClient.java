@@ -21,7 +21,7 @@ public class ControllerClient {
         this.dao = dao;
     }
 
-    private void addToBasket(Product product, Integer quantity){
+    public void addToBasket(Product product, Integer quantity){
         client.addToBasket(product,quantity);
     }
 

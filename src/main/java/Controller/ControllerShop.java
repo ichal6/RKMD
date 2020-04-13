@@ -7,6 +7,7 @@ import Interaction.InputManager;
 import Model.Product;
 import View.AbstractView;
 
+import java.util.Map;
 import java.util.TreeMap;
 
 public class ControllerShop {
@@ -32,6 +33,20 @@ public class ControllerShop {
         return dao.searchProducts(wordToSearch);
     }
 
+    private void chooseProduct(TreeMap<Product, Integer> MapOfProducts){
+        view.print("Please choose product:");
+        view.print(MapOfProducts);
+        String nameOfProduct = "Kross";//here must be input
+        view.print("Please choose quantity of product:");
+        int quantity = 2; //here must be input
+        for(Map.Entry<Product,Integer> product : MapOfProducts.entrySet()){
+            if(product.getKey().toString().equals(nameOfProduct) && product.getValue() >= quantity){
+                controllerClient.addToBasket(product.getKey(), quantity);
+                break;
+            }
+        }
+    }
+
     public void executeOrder() {
     }
 
@@ -54,7 +69,7 @@ public class ControllerShop {
             case 0:
                 return false;
             case 1:
-                searchProducts();
+                chooseProduct(searchProducts());
                 break;
             case 2:
                 view.print(controllerClient.getBasket());
