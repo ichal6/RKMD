@@ -7,6 +7,7 @@ import Interaction.InputManager;
 import Model.Product;
 import View.AbstractView;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -48,6 +49,12 @@ public class ControllerShop {
     }
 
     public void executeOrder() {
+        HashMap<Product, Integer> mapOfProducts = controllerClient.getBasket();
+        for(Map.Entry<Product,Integer> product : mapOfProducts.entrySet()){
+            dao.decreaseQuantity(product.getKey(), product.getValue());
+        }
+        controllerClient.clearBasket();
+        // We must call method add new row to table order. Do we need new DAO for Order?
     }
 
     private boolean tryToLogIn() {
@@ -75,7 +82,7 @@ public class ControllerShop {
                 view.print(controllerClient.getBasket());
                 break;
             case 3:
-
+                executeOrder();
                 break;
         }
         return true;
