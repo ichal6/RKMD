@@ -35,15 +35,23 @@ public class ControllerShop {
     }
 
     private void chooseProduct(TreeMap<Product, Integer> MapOfProducts){
+        HashMap<Product, Integer> basket = controllerClient.getBasket();
         view.print("Please choose product:");
         view.print(MapOfProducts);
         String nameOfProduct = "Kross";//here must be input
         view.print("Please choose quantity of product:");
         int quantity = 2; //here must be input
         for(Map.Entry<Product,Integer> product : MapOfProducts.entrySet()){
-            if(product.getKey().toString().equals(nameOfProduct) && product.getValue() >= quantity){
-                controllerClient.addToBasket(product.getKey(), quantity);
-                break;
+            if(product.getKey().getProductName().equals(nameOfProduct) && product.getValue() >= quantity ){
+                if(basket.containsKey(product.getKey())){
+                    if(basket.get(product.getKey()) + quantity <= product.getValue()){
+                        controllerClient.addToBasket(product.getKey(), quantity);
+                        break;
+                    }
+                }else{
+                    controllerClient.addToBasket(product.getKey(), quantity);
+                    break;
+                }
             }
         }
     }
