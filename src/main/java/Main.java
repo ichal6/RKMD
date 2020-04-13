@@ -1,3 +1,4 @@
+import Controller.ControllerMain;
 import Controller.ControllerShop;
 import DAO.ProductDBDAO;
 import Interaction.InputManager;
@@ -8,10 +9,10 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
-        ControllerShop shop = null;
+        ControllerMain main = null;
         try {
-            shop = new ControllerShop(new TerminalView(),new InputManager(), new ProductDBDAO());
-            shop.run();
+            main = new ControllerMain(new TerminalView(),new InputManager());
+            main.run();
         } catch (IOException e) {
             e.printStackTrace();
         }

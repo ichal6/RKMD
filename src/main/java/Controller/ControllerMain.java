@@ -4,6 +4,7 @@ import DAO.ProductDAO;
 import DAO.ProductDBDAO;
 import Interaction.InputManager;
 import View.AbstractView;
+import View.TerminalView;
 
 import java.io.IOException;
 
@@ -31,13 +32,14 @@ public class ControllerMain {
         menuContent[4] = "4. Create new Admin";
     }
 
-    private boolean switchController() {
+    private boolean switchController() throws IOException {
+        view.print(menuContent, label);
         Integer inputInt = input.getIntInput("Please provide option.");
         switch (inputInt) {
             case 0:
                 return false;
             case 1:
-
+                controllerShop.run();
                 break;
             case 2:
 
@@ -51,9 +53,11 @@ public class ControllerMain {
         return true;
     }
 
-    public void run(){
+    public void run() throws IOException{
+
         boolean isRun;
         do{
+
             isRun = switchController();
         }while(isRun);
     }
