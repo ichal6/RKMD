@@ -16,7 +16,7 @@ public class ControllerAdmin {
     private AdminDAO adminDAO;
     private ClientsDAO clientDAO;
     private ProductDAOAdmin productDAOAdmin;
-    private String[] menuContent = new String[7];
+    private String[] menuContent = new String[8];
     private String label;
 
     public ControllerAdmin(AbstractView view, InputManager input, AdminDAO adminDAo, ClientsDAO clientDAO, ProductDAOAdmin productDAOAdmin ){
@@ -37,6 +37,7 @@ public class ControllerAdmin {
         menuContent[4] = "4. Add Product";
         menuContent[5] = "5. Update Product";
         menuContent[6] = "6. Delete Product";
+        menuContent[7] = "7. Search specific Admin";
 
     }
     public boolean tryToLogIn(){
@@ -53,6 +54,8 @@ public class ControllerAdmin {
     attributes[3] = input.getStringInput("Please provide with new product frame M/F");
     return attributes;
     }
+
+
     private void updateQuantityOfProduct(){
         String word = input.getStringInput("Please provide searching product");
         productDAOAdmin.searchProducts(word);
@@ -72,6 +75,17 @@ public class ControllerAdmin {
             System.out.println("\nNo such product\n\n");
         }
     }
+
+    private void getSpecificAdmin() {
+        String searchingWord = input.getStringInput("Please provide with searching word");
+        adminDAO.getSpecificAdmin(searchingWord);
+        if (adminDAO.getAdminList().isEmpty()) {
+            view.print("There is no such Admin\n");
+        } else {
+            view.print(adminDAO.getAdminList());
+        }
+    }
+
 
     private boolean switchController(){
         Integer inputuser = input.getIntInput("Please provide with option to choose");
@@ -95,12 +109,14 @@ public class ControllerAdmin {
                 productDAOAdmin.addProductToInventory(newProduct, quantity);
                 break;
             case 5:
-                System.out.println("update product");
                 updateQuantityOfProduct();
                 break;
             case 6:
                 int ID = input.getIntInput("Please provide product ID to be delete");
                 productDAOAdmin.deleteProduct(ID);
+                break;
+            case 7:
+                getSpecificAdmin();
                 break;
 
         }
