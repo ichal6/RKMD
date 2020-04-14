@@ -54,13 +54,13 @@ public class ClientsDatabaseDAO implements ClientsDAO {
         String date = getActualDate();
         String AddToAccountDetailsStatement = String.format("INSERT INTO accountdetails VALUES (DEFAULT, '%s', '%s', '%s')",
                 date,
-                clientToAdd[2],
-                clientToAdd[3]);
+                clientToAdd[3],
+                clientToAdd[2]);
         updateDB(AddToAccountDetailsStatement);
     }
 
     private void updateClientsAccountDetails(Integer acc_ID, String[] newAttributes) {
-        String updateStatement = String.format("UPDATE accountdetails SET password = '%s', login = '%s' WHERE accountdetails_id = %d",
+        String updateStatement = String.format("UPDATE accountdetails SET login = '%s', password = '%s' WHERE accountdetails_id = %d",
                 newAttributes[2],
                 newAttributes[3],
                 acc_ID);
@@ -96,10 +96,9 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     @Override
     public void addClient(String[] clientToAdd) {
         addClientToAccountDetails(clientToAdd);
-        String AddToUser_tableStatement = String.format("INSERT INTO User_table VALUES (DEFAULT, '%s', '%s', '%d', DEFAULT)",
+        String AddToUser_tableStatement = String.format("INSERT INTO User_table VALUES (DEFAULT, '%s', '%s', '0', DEFAULT)",
                 clientToAdd[0],
-                clientToAdd[1],
-                Integer.parseInt(clientToAdd[4]));
+                clientToAdd[1]);
         updateDB(AddToUser_tableStatement);
     }
 
