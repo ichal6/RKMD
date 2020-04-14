@@ -20,6 +20,7 @@ public abstract class AbstractView {
     public abstract void print(String[] menuContent, String label);
 
     public abstract void print(HashMap<Product, Integer> basket);
+
 }
 
 

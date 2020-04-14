@@ -14,9 +14,9 @@ public class ProductDBDAO implements ProductDAOAdmin {
     private Connection connectionToDB = null;
     private ResultSet resultSet;
     PreparedStatement preparedStatement;
-    String url = "jdbc:postgresql://localhost:5432/online_shop";
-    String user = "michael";
-    String password = "1234";
+    String url;
+    String user;
+    String password;
 
     public ProductDBDAO() throws IOException {
         Properties prop = loginData.readProperties("src/main/resources/database.properties");
@@ -25,7 +25,6 @@ public class ProductDBDAO implements ProductDAOAdmin {
         password = prop.getProperty("db.passwd");
         connectToDB();
     }
-
 
 
     private Connection connectToDB() {
@@ -91,18 +90,6 @@ public class ProductDBDAO implements ProductDAOAdmin {
         }
         return currentQuantity;
     }
-
-    //
-//    private boolean checkIfProductExistInList(Product product){
-//        getAllProducts();
-//        for (HashMap.Entry<Product, Integer> productInList : productsList.entrySet()) {
-//            if(productInList.getKey().equals(product)){
-//                System.out.println("Product is already in list.");
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
     @Override
     public void addProductToInventory(Product product, Integer quantity) {
@@ -187,6 +174,7 @@ public class ProductDBDAO implements ProductDAOAdmin {
                 Integer quantity = resultSet.getInt(6);
                 addProductToList(product, quantity, productsList);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -208,5 +196,9 @@ public class ProductDBDAO implements ProductDAOAdmin {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public TreeMap<Product, Integer> getProductsList() {
+        return productsList;
     }
 }
