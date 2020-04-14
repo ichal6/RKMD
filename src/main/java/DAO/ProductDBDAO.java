@@ -17,8 +17,8 @@ public class ProductDBDAO implements ProductDAOAdmin {
     }
 
     String url = "jdbc:postgresql://localhost:5432/online_shop";
-    String user = "rafal";
-    String password = "rafal";
+    String user = "dariusz";
+    String password = "polska";
 
     private Connection connectToDB() {
         try {
@@ -174,15 +174,13 @@ public class ProductDBDAO implements ProductDAOAdmin {
             preparedStatement.setString(3, word);
             resultSet = preparedStatement.executeQuery();
 
-            if (resultSet.next() == false) {
-                System.out.println("No result to display");
-            } else {
+
                 while (resultSet.next()) {
                     Product product = new Product(resultSet);
                     Integer quantity = resultSet.getInt(6);
                     addProductToList(product, quantity, productsList);
                 }
-            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -203,5 +201,9 @@ public class ProductDBDAO implements ProductDAOAdmin {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public TreeMap<Product, Integer> getProductsList() {
+        return productsList;
     }
 }

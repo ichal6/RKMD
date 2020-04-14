@@ -116,8 +116,58 @@ public class AdminDatabaseDAO implements AdminDAO {
         deleteFromAccountDetails(user_ID);
     }
 
+    @Override
+    public boolean checkIsAdmin(String login, String password) {
+        try
+            (Connection con = DriverManager.getConnection(url, user, this.password);
+            PreparedStatement pst = con.prepareStatement("SELECT user_id, first_name, last_name from user_table INNER JOIN accountdetails ON user_table.account_details_id = accountdetails.accountdetails_id WHERE admin_user = '1' AND login = ? AND password = ?");
+                ){
+                pst.setString(1, login);
+                pst.setString(2, password);
+                ResultSet rs = pst.executeQuery();
+
+                if(rs.next()){
+                    return true;
+            }
+
+        } catch (SQLException ex) {
+            Logger lgr = Logger.getLogger(AdminDatabaseDAO.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return false;
+    }
 
     @Override
+    public void getSpecificAdmin(String word) {
+        try (Connection con = DriverManager.getConnection(url, user, password);
+             PreparedStatement pst = con.prepareStatement("SELECT user_id, first_name, last_name, login, password FROM user_table INNER JOIN accountdetails ON user_table.account_details_id = accountdetails.accountdetails_id WHERE admin_user = '1' AND first_name = ? OR last_name = ? OR login = ?")
+        ) {
+            pst.setString(1, word);
+            pst.setString(2, word);
+            pst.setString(3, word);
+            ResultSet rs = pst.executeQuery();
+
+
+            int attributesNumber = rs.getMetaData().getColumnCount();
+            AdminList = new ArrayList<>();
+            String[] adminAttributes = new String[attributesNumber];
+
+            while (rs.next()) {
+                for (int index = 0; index < attributesNumber; index++) {
+                    adminAttributes[index] = rs.getString(index + 1);
+                }
+                Admin admin = new Admin(adminAttributes);
+                AdminList.add(admin);
+                con.close();
+            }
+        } catch (SQLException throwables) {
+//        throwables.printStackTrace();
+            System.out.println("Something went wrong in DB");
+        }
+    }
+
+
+        @Override
     public List<UserAbstract> getAdminList() {
         return AdminList;
     }

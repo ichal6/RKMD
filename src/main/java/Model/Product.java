@@ -72,7 +72,15 @@ public class Product implements Comparable<Product>{
 
     @Override
     public String toString() {
-        return productId + " " + productName + " " + productPrice + " " + productColor + " " + frameType;
+        String returnValue;
+        returnValue = String.format("| %-5d | %-20s | %-20.2f | %-20s | %-20s ",
+                getProductId(),
+                getProductName(),
+                getPrice(),
+                getColor(),
+                getFrameType());
+
+        return returnValue;
     }
 
     @Override
