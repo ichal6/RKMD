@@ -1,7 +1,6 @@
 package Controller;
 
-import DAO.ProductDAO;
-import DAO.ProductDBDAO;
+import DAO.*;
 import Interaction.InputManager;
 import View.AbstractView;
 import View.TerminalView;
@@ -12,11 +11,13 @@ public class ControllerMain {
     private String[] menuContent = new String[5];
     private String label = "Please choose options";
     private ControllerShop controllerShop;
+    private ControllerAdmin controllerAdmin;
     private AbstractView view;
     private InputManager input;
 
     public ControllerMain(AbstractView view, InputManager input) throws IOException {
         controllerShop = new ControllerShop(view, input, new ProductDBDAO());
+        controllerAdmin = new ControllerAdmin(view, input, new AdminDatabaseDAO(), new ClientsDatabaseDAO(),new ProductDBDAO());
         this.view = view;
         this.input = input;
         fillMenuContent();
@@ -42,7 +43,7 @@ public class ControllerMain {
                 controllerShop.run();
                 break;
             case 2:
-
+                controllerAdmin.run();
                 break;
             case 3:
                 String[] dataAboutClient = createNewClient();
