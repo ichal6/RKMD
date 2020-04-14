@@ -42,11 +42,11 @@ public class ControllerMain {
                 controllerShop.run();
                 break;
             case 2:
-                String[] dataAboutClient = createNewClient();
-                controllerShop.addUser(dataAboutClient);
+
                 break;
             case 3:
-
+                String[] dataAboutClient = createNewClient();
+                controllerShop.addUser(dataAboutClient);
                 break;
             case 4:
                 break;
@@ -55,7 +55,16 @@ public class ControllerMain {
     }
 
     private String[] createNewClient(){
-        return null;
+        String[] data = new String[4];
+        String[] questions = {"name", "surname", "login", "password"};
+        for(int index = 0; index < questions.length; index++){
+            data[index] = input.getStringInput(String.format("Please provide %s:", questions[index]));
+            if(data[index].length() == 0){
+                view.print("You cannot provide empty value!");
+                index--;
+            }
+        }
+        return data;
     }
 
     public void run() throws IOException{
