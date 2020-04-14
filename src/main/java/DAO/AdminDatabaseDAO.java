@@ -3,11 +3,13 @@ package DAO;
 import Model.Admin;
 import Model.UserAbstract;
 
+import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,6 +18,13 @@ public class AdminDatabaseDAO implements AdminDAO {
     private String user = "dariusz";
     private String password = "polska";
     private List<UserAbstract> AdminList;
+
+    public AdminDatabaseDAO() throws IOException {
+        Properties prop = loginData.readProperties("src/main/resources/database.properties");
+        url = prop.getProperty("db.url");
+        user = prop.getProperty("db.user");
+        password = prop.getProperty("db.passwd");
+    }
 
     private void updateDB(String query){
         try {

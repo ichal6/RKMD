@@ -11,18 +11,22 @@ public class Client extends UserAbstract {
         basket = new HashMap<>();
     }
 
-    public void addToBasket(Product newProduct){
+    public void addToBasket(Product newProduct, Integer quantity){
         if(basket.containsKey(newProduct)){
-            int count = basket.get(newProduct) + 1;
+            int count = basket.get(newProduct) + quantity;
             basket.put(newProduct, count);
         }else{
-            basket.put(newProduct, 1);
+            basket.put(newProduct, quantity);
         }
 
     }
 
     public void removeFromBasket(Product deleteProduct){
         basket.remove(deleteProduct);
+    }
+
+    public void clearBasket(){
+        basket.clear();
     }
 
     public HashMap<Product, Integer> getBasket() {

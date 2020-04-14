@@ -5,6 +5,7 @@ import View.TerminalView;
 import java.util.Scanner;
 
 public class InputManager {
+
     private TerminalView view;
 
     public InputManager(){

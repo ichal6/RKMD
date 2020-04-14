@@ -2,8 +2,10 @@ package DAO;
 
 import Model.Product;
 
+import java.io.IOException;
 import java.sql.*;
 import java.util.Map;
+import java.util.Properties;
 import java.util.TreeMap;
 
 public class ProductDBDAO implements ProductDAOAdmin {
@@ -12,13 +14,18 @@ public class ProductDBDAO implements ProductDAOAdmin {
     private Connection connectionToDB = null;
     private ResultSet resultSet;
     PreparedStatement preparedStatement;
-    public ProductDBDAO() {
+    String url;
+    String user;
+    String password;
+
+    public ProductDBDAO() throws IOException {
+        Properties prop = loginData.readProperties("src/main/resources/database.properties");
+        url = prop.getProperty("db.url");
+        user = prop.getProperty("db.user");
+        password = prop.getProperty("db.passwd");
         connectToDB();
     }
 
-    String url = "jdbc:postgresql://localhost:5432/online_shop";
-    String user = "dariusz";
-    String password = "polska";
 
     private Connection connectToDB() {
         try {
@@ -83,18 +90,6 @@ public class ProductDBDAO implements ProductDAOAdmin {
         }
         return currentQuantity;
     }
-
-    //
-//    private boolean checkIfProductExistInList(Product product){
-//        getAllProducts();
-//        for (HashMap.Entry<Product, Integer> productInList : productsList.entrySet()) {
-//            if(productInList.getKey().equals(product)){
-//                System.out.println("Product is already in list.");
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
     @Override
     public void addProductToInventory(Product product, Integer quantity) {
@@ -163,7 +158,7 @@ public class ProductDBDAO implements ProductDAOAdmin {
     }
 
     @Override
-    public void searchProducts(String word) {
+    public TreeMap<Product, Integer> searchProducts(String word) {
         productsList = new TreeMap<>();
         String query =
                 "select * from bike_product where name like ? or cast(price as text) like ? or color like ?";
@@ -174,16 +169,16 @@ public class ProductDBDAO implements ProductDAOAdmin {
             preparedStatement.setString(3, word);
             resultSet = preparedStatement.executeQuery();
 
-
-                while (resultSet.next()) {
-                    Product product = new Product(resultSet);
-                    Integer quantity = resultSet.getInt(6);
-                    addProductToList(product, quantity, productsList);
-                }
+            while (resultSet.next()) {
+                Product product = new Product(resultSet);
+                Integer quantity = resultSet.getInt(6);
+                addProductToList(product, quantity, productsList);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return productsList;
     }
 
     @Override
