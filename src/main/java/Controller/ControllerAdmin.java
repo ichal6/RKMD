@@ -7,6 +7,7 @@ import Interaction.InputManager;
 import Model.Product;
 import View.AbstractView;
 
+import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
 public class ControllerAdmin {
@@ -57,12 +58,18 @@ public class ControllerAdmin {
         productDAOAdmin.searchProducts(word);
         TreeMap<Product, Integer> product = productDAOAdmin.getProductsList();
         view.print(product);
-        Product updateProduct = product.firstKey();
-        int updateQuantity = input.getIntInput("Please provide with negative number or positive number to update quantity od product in inventory");
-        if(updateQuantity>0){
-            productDAOAdmin.updateInventory(updateProduct, updateQuantity);
-        }else{
-            productDAOAdmin.decreaseQuantity(updateProduct, Math.abs(updateQuantity));
+        Product updateProduct;
+        try {
+            updateProduct = product.firstKey();
+            int updateQuantity = input.getIntInput("Please provide with negative number or positive number to update quantity od product in inventory");
+            if(updateQuantity>0){
+                productDAOAdmin.updateInventory(updateProduct, updateQuantity);
+            }else{
+                productDAOAdmin.decreaseQuantity(updateProduct, Math.abs(updateQuantity));
+            }
+
+        }catch (NoSuchElementException ex){
+            System.out.println("\nNo such product\n\n");
         }
     }
 
@@ -105,7 +112,7 @@ public class ControllerAdmin {
         while (!isLogIn){
             isLogIn = tryToLogIn();
         }
-        boolean isRun = true;
+        boolean isRun;
         do {
             view.print(menuContent, label);
             isRun = switchController();
