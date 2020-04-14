@@ -16,6 +16,7 @@ public class ControllerAdmin {
     private ClientsDAO clientDAO;
     private ProductDAOAdmin productDAOAdmin;
     private String[] menuContent = new String[7];
+    private String label;
 
     public ControllerAdmin(AbstractView view, InputManager input, AdminDAO adminDAo, ClientsDAO clientDAO, ProductDAOAdmin productDAOAdmin ){
     this.view = view;
@@ -27,6 +28,7 @@ public class ControllerAdmin {
     }
 
     public void fillMenuContent(){
+        label = "Welcome to Admin Controller";
         menuContent[0] = "0. Log out";
         menuContent[1] = "1. All Admins";
         menuContent[2] = "2. All Clients";
@@ -105,8 +107,7 @@ public class ControllerAdmin {
         }
         boolean isRun = true;
         do {
-//            view.print(menuContent);
-            System.out.println("please chose 1");
+            view.print(menuContent, label);
             isRun = switchController();
         } while (isRun);
     }

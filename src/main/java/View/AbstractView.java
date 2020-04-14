@@ -10,4 +10,5 @@ public abstract class AbstractView {
     public abstract void  print(String message);
     public abstract void print(List<UserAbstract> PersonsList);
     public abstract void print(TreeMap<Product, Integer> productsList);
+    public abstract void print(String[] menuContent, String label);
 }

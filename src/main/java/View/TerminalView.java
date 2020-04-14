@@ -56,6 +56,15 @@ public class TerminalView extends AbstractView {
         }
     }
 
+    @Override
+    public void print(String[] menuContent, String label) {
+        System.out.println(label);
+        for (String menuLine:menuContent
+             ) {
+            System.out.println(menuLine);
+        }
+    }
+
 
     public void printEmptyChar(){
         System.out.println(" ");
