@@ -53,7 +53,7 @@ public class ControllerAdmin {
     attributes[3] = input.getStringInput("Please provide with new product frame M/F");
     return attributes;
     }
-    private void updateQuantityOdProduct(){
+    private void updateQuantityOfProduct(){
         String word = input.getStringInput("Please provide searching product");
         productDAOAdmin.searchProducts(word);
         TreeMap<Product, Integer> product = productDAOAdmin.getProductsList();
@@ -96,7 +96,7 @@ public class ControllerAdmin {
                 break;
             case 5:
                 System.out.println("update product");
-                updateQuantityOdProduct();
+                updateQuantityOfProduct();
                 break;
             case 6:
                 int ID = input.getIntInput("Please provide product ID to be delete");

@@ -14,5 +14,6 @@ public interface AdminDAO {
      void updateAdmin(Integer user_ID, String[] newAttributes);
      void deleteAdmin(Integer user_ID);
      boolean checkIsAdmin(String login, String password);
+     void getSpecificAdmin(String word);
      List<UserAbstract> getAdminList();
 }

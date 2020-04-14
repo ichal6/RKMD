@@ -20,13 +20,11 @@ public class TerminalView extends AbstractView {
         String First_Name = "First Name";
         String Last_Name = "Last Name";
         String Login = "Login";
-        String Password = "Password";
-        String Menu = String.format("| %-5s | %-20s | %-20s | %-20s | %-20s |",
+        String Menu = String.format("| %-5s | %-20s | %-20s | %-20s |",
                                     ID,
                                     First_Name,
                                     Last_Name,
-                                    Login,
-                                    Password);
+                                    Login);
         System.out.println(Menu);
         for (UserAbstract person: PersonsList
         ) {
