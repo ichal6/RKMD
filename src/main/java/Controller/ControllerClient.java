@@ -49,4 +49,18 @@ public class ControllerClient {
     public void removeFromBasket(Product productToRemove){
         client.removeFromBasket(productToRemove);
     }
+
+    public void resetPassword(){
+
+        String newPassword = input.getStringInput("Please provide a new password: ");
+        String newPasswordRepeat = input.getStringInput("Please repeat your new password: ");
+        if (newPassword.equals(newPasswordRepeat)) {
+            String[] data = client.getDataAboutClient();
+            data[4] = newPassword;
+            dao.updateClient(client.getID(), data);
+            view.print("Password has changed successful.");
+            return;
+        }
+        view.print("Passwords were different! Password hasn't changed.");
+    }
 }

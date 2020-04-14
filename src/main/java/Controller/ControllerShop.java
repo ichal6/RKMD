@@ -17,7 +17,7 @@ public class ControllerShop {
     private InputManager input;
     private ProductDAO dao;
     private ControllerClient controllerClient;
-    private String[] menuContent = new String[5];
+    private String[] menuContent = new String[6];
     private String label = "Welcome to our shop";
 
     public ControllerShop(AbstractView view, InputManager input, ProductDAO dao) throws IOException {
@@ -108,6 +108,7 @@ public class ControllerShop {
         menuContent[2] = "2. Display basket";
         menuContent[3] = "3. Checkout";
         menuContent[4] = "4. Remove from basket";
+        menuContent[5] = "5. Change password";
     }
 
     private boolean switchController() {
@@ -126,6 +127,9 @@ public class ControllerShop {
                 break;
             case 4:
                 removeProductFromBasket();
+                break;
+            case 5:
+                controllerClient.resetPassword();
                 break;
         }
         return true;
