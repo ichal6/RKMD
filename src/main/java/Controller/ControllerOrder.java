@@ -2,7 +2,6 @@ package Controller;
 
 import DAO.*;
 import Model.Client;
-import Model.Order;
 import Model.Product;
 
 import java.io.IOException;
@@ -51,23 +50,13 @@ public class ControllerOrder implements OrdersDAO {
     }
 
     @Override
-    public List getAllOrders() {
-        return null;
-    }
-
-    @Override
-    public Order getSpecificOrder(Integer id) {
-        return null;
-    }
-
-    @Override
     public void createOrder(HashMap<Product, Integer> basket, Client client) {
         addRecordToOrderTable(basket);
         addRecordToOrderProduct(basket);
         addRecordToCustomerOrder(client);
     }
 
-    public void addRecordToOrderTable(HashMap<Product, Integer> basket){
+    public void addRecordToOrderTable(HashMap<Product, Integer> basket) {
         java.util.Date now = new Date();
         String query = "insert into order_table\n" +
                 "values(default, ?,?);";
@@ -82,7 +71,7 @@ public class ControllerOrder implements OrdersDAO {
         }
     }
 
-    public void addRecordToOrderProduct(HashMap<Product, Integer> basket){
+    public void addRecordToOrderProduct(HashMap<Product, Integer> basket) {
         String query = "insert into order_product\n" +
                 "values(?,?,?)";
         try {
@@ -100,7 +89,7 @@ public class ControllerOrder implements OrdersDAO {
         }
     }
 
-    public void addRecordToCustomerOrder(Client client){
+    public void addRecordToCustomerOrder(Client client) {
         String query = "insert into customer_order\n" +
                 "values(default,?,?)";
         try {
