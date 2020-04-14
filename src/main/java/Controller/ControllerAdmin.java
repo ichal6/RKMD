@@ -16,7 +16,7 @@ public class ControllerAdmin {
     private AdminDAO adminDAO;
     private ClientsDAO clientDAO;
     private ProductDAOAdmin productDAOAdmin;
-    private String[] menuContent = new String[8];
+    private String[] menuContent = new String[9];
     private String label;
 
     public ControllerAdmin(AbstractView view, InputManager input, AdminDAO adminDAo, ClientsDAO clientDAO, ProductDAOAdmin productDAOAdmin ){
@@ -38,6 +38,7 @@ public class ControllerAdmin {
         menuContent[5] = "5. Update Product";
         menuContent[6] = "6. Delete Product";
         menuContent[7] = "7. Search specific Admin";
+        menuContent[8] = "8. Search specific Products";
 
     }
     public boolean tryToLogIn(){
@@ -55,26 +56,31 @@ public class ControllerAdmin {
     return attributes;
     }
 
-
-    private void updateQuantityOfProduct(){
+    private Product getSpecificProduct() {
         String word = input.getStringInput("Please provide searching product");
         productDAOAdmin.searchProducts(word);
         TreeMap<Product, Integer> product = productDAOAdmin.getProductsList();
         view.print(product);
-        Product updateProduct;
+        Product updateProduct = null;
         try {
             updateProduct = product.firstKey();
+        } catch (NoSuchElementException ex) {
+            view.print("No such product");
+            }
+        return updateProduct;
+    }
+    private void updateQuantityOfProduct(Product updateProduct){
+        if (updateProduct != null) {
             int updateQuantity = input.getIntInput("Please provide with negative number or positive number to update quantity od product in inventory");
-            if(updateQuantity>0){
+            if (updateQuantity > 0) {
                 productDAOAdmin.updateInventory(updateProduct, updateQuantity);
-            }else{
+            } else {
                 productDAOAdmin.decreaseQuantity(updateProduct, Math.abs(updateQuantity));
             }
-
-        }catch (NoSuchElementException ex){
-            System.out.println("\nNo such product\n\n");
         }
+        view.print("Sorry, please try once again.\n\n ");
     }
+
 
     private void getSpecificAdmin() {
         String searchingWord = input.getStringInput("Please provide with searching word");
@@ -109,7 +115,7 @@ public class ControllerAdmin {
                 productDAOAdmin.addProductToInventory(newProduct, quantity);
                 break;
             case 5:
-                updateQuantityOfProduct();
+                updateQuantityOfProduct(getSpecificProduct());
                 break;
             case 6:
                 int ID = input.getIntInput("Please provide product ID to be delete");
@@ -118,7 +124,8 @@ public class ControllerAdmin {
             case 7:
                 getSpecificAdmin();
                 break;
-
+            case 8:
+                getSpecificProduct();
         }
         return true;
     }
