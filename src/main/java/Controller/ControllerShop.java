@@ -29,10 +29,31 @@ public class ControllerShop {
 
     }
 
+    public void run() {
+        boolean isLogIn = false;
+        while (!isLogIn){
+            isLogIn = tryToLogIn();
+        }
+        boolean isRun = true;
+        do {
+            view.print(menuContent, label);
+            isRun = switchController();
+        } while (isRun);
+    }
+
     public TreeMap<Product, Integer> searchProducts() {
         view.print("Please insert phrase to search: ");
         String wordToSearch = "Kross"; // here It have to input
         return dao.searchProducts(wordToSearch);
+    }
+
+    public void executeOrder() {
+        HashMap<Product, Integer> mapOfProducts = controllerClient.getBasket();
+        for(Map.Entry<Product,Integer> product : mapOfProducts.entrySet()){
+            dao.decreaseQuantity(product.getKey(), product.getValue());
+        }
+        controllerClient.clearBasket();
+        // We must call method add new row to table order. Do we need new DAO for Order?
     }
 
     private void chooseProduct(TreeMap<Product, Integer> MapOfProducts){
@@ -55,15 +76,6 @@ public class ControllerShop {
                 }
             }
         }
-    }
-
-    public void executeOrder() {
-        HashMap<Product, Integer> mapOfProducts = controllerClient.getBasket();
-        for(Map.Entry<Product,Integer> product : mapOfProducts.entrySet()){
-            dao.decreaseQuantity(product.getKey(), product.getValue());
-        }
-        controllerClient.clearBasket();
-        // We must call method add new row to table order. Do we need new DAO for Order?
     }
 
     private boolean tryToLogIn() {
@@ -97,15 +109,4 @@ public class ControllerShop {
         return true;
     }
 
-    public void run() {
-        boolean isLogIn = false;
-        while (!isLogIn){
-            isLogIn = tryToLogIn();
-        }
-        boolean isRun = true;
-        do {
-            view.print(menuContent, label);
-            isRun = switchController();
-        } while (isRun);
-    }
 }

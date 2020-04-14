@@ -42,7 +42,7 @@ public class ControllerMain {
                 controllerShop.run();
                 break;
             case 2:
-
+                //controllerShop.
                 break;
             case 3:
 
