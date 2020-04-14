@@ -65,13 +65,6 @@ public class TerminalView extends AbstractView {
         }
     }
 
-    @Override
-    public void print(String[] menuContent, String label) {
-        System.out.println(label);
-        for (String menuItem : menuContent) {
-            System.out.println(menuItem);
-        }
-    }
 
     @Override
     public void print(HashMap<Product, Integer> basket) {
