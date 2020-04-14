@@ -61,8 +61,8 @@ public class ClientsDatabaseDAO implements ClientsDAO {
 
     private void updateClientsAccountDetails(Integer acc_ID, String[] newAttributes) {
         String updateStatement = String.format("UPDATE accountdetails SET login = '%s', password = '%s' WHERE accountdetails_id = %d",
-                newAttributes[2],
                 newAttributes[3],
+                newAttributes[4],
                 acc_ID);
         updateDB(updateStatement);
     }
@@ -106,8 +106,8 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     public void updateClient(Integer user_ID, String[] newAttributes) {
         updateClientsAccountDetails(user_ID, newAttributes);        //since accountdetail_ID will be always same as user_ID
         String updateStatement = String.format("UPDATE user_table SET first_name = '%s', last_name = '%s' WHERE user_id = %d",
-                newAttributes[0],
                 newAttributes[1],
+                newAttributes[2],
                 user_ID);
         updateDB(updateStatement);
     }
