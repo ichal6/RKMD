@@ -14,9 +14,9 @@ public class ProductDBDAO implements ProductDAOAdmin {
     private Connection connectionToDB = null;
     private ResultSet resultSet;
     PreparedStatement preparedStatement;
-    String url = "jdbc:postgresql://localhost:5432/online_shop";
-    String user = "michael";
-    String password = "1234";
+    String url;
+    String user;
+    String password;
 
     public ProductDBDAO() throws IOException {
         Properties prop = loginData.readProperties("src/main/resources/database.properties");
