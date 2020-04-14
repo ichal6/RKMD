@@ -1,6 +1,7 @@
 .idea
 RKMD.iml
 target
+database.properties
 
 
 # Created by https://www.gitignore.io/api/java,linux,intellij

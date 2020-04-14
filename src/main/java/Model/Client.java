@@ -16,7 +16,7 @@ public class Client extends UserAbstract {
             int count = basket.get(newProduct) + quantity;
             basket.put(newProduct, count);
         }else{
-            basket.put(newProduct, 1);
+            basket.put(newProduct, quantity);
         }
 
     }

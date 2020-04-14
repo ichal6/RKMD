@@ -2,11 +2,13 @@ package DAO;
 
 import Model.Client;
 
+import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,6 +18,14 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     private String user = "michael";
     private String password = "1234";
     private List<Client> ClientList;
+
+    public ClientsDatabaseDAO() throws IOException {
+        Properties prop = loginData.readProperties("src/main/resources/database.properties");
+        url = prop.getProperty("db.url");
+        user = prop.getProperty("db.user");
+        password = prop.getProperty("db.passwd");
+    }
+
 
     public void updateDB(String query) {
         try {
@@ -44,15 +54,15 @@ public class ClientsDatabaseDAO implements ClientsDAO {
         String date = getActualDate();
         String AddToAccountDetailsStatement = String.format("INSERT INTO accountdetails VALUES (DEFAULT, '%s', '%s', '%s')",
                 date,
-                clientToAdd[2],
-                clientToAdd[3]);
+                clientToAdd[3],
+                clientToAdd[2]);
         updateDB(AddToAccountDetailsStatement);
     }
 
     private void updateClientsAccountDetails(Integer acc_ID, String[] newAttributes) {
-        String updateStatement = String.format("UPDATE accountdetails SET password = '%s', login = '%s' WHERE accountdetails_id = %d",
-                newAttributes[2],
+        String updateStatement = String.format("UPDATE accountdetails SET login = '%s', password = '%s' WHERE accountdetails_id = %d",
                 newAttributes[3],
+                newAttributes[4],
                 acc_ID);
         updateDB(updateStatement);
     }
@@ -86,10 +96,9 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     @Override
     public void addClient(String[] clientToAdd) {
         addClientToAccountDetails(clientToAdd);
-        String AddToUser_tableStatement = String.format("INSERT INTO User_table VALUES (DEFAULT, '%s', '%s', '%d', DEFAULT)",
+        String AddToUser_tableStatement = String.format("INSERT INTO User_table VALUES (DEFAULT, '%s', '%s', '0', DEFAULT)",
                 clientToAdd[0],
-                clientToAdd[1],
-                Integer.parseInt(clientToAdd[4]));
+                clientToAdd[1]);
         updateDB(AddToUser_tableStatement);
     }
 
@@ -97,8 +106,8 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     public void updateClient(Integer user_ID, String[] newAttributes) {
         updateClientsAccountDetails(user_ID, newAttributes);        //since accountdetail_ID will be always same as user_ID
         String updateStatement = String.format("UPDATE user_table SET first_name = '%s', last_name = '%s' WHERE user_id = %d",
-                newAttributes[0],
                 newAttributes[1],
+                newAttributes[2],
                 user_ID);
         updateDB(updateStatement);
     }

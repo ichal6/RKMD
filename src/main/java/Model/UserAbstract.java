@@ -15,8 +15,13 @@ public abstract class UserAbstract {
         password = dataAboutClient[4];
     }
 
-    public String getID() {
-        return ID;
+    public String[] getDataAboutClient(){
+         String[] data = {ID, name, surname, login, password};
+         return data;
+    }
+
+    public Integer getID() {
+        return Integer.parseInt(ID);
     }
 
     public void setID(String ID) {
