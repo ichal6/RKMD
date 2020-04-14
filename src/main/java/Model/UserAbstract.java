@@ -63,12 +63,11 @@ public abstract class UserAbstract {
     @Override
     public String toString() {
         String returnValue;
-        returnValue = String.format("| %s | %s | %s | %s | %s |",
+        returnValue = String.format("| %-5s | %-20s | %-20s | %-20s |",
                 this.getID(),
                 this.getName(),
                 this.getSurname(),
-                this.getLogin(),
-                this.getPassword());
+                this.getLogin());
 
         return returnValue;
     }

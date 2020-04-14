@@ -27,7 +27,6 @@ public class ProductDBDAO implements ProductDAOAdmin {
     }
 
 
-
     private Connection connectToDB() {
         try {
             connectionToDB = DriverManager.getConnection(url, user, password);
@@ -91,18 +90,6 @@ public class ProductDBDAO implements ProductDAOAdmin {
         }
         return currentQuantity;
     }
-
-    //
-//    private boolean checkIfProductExistInList(Product product){
-//        getAllProducts();
-//        for (HashMap.Entry<Product, Integer> productInList : productsList.entrySet()) {
-//            if(productInList.getKey().equals(product)){
-//                System.out.println("Product is already in list.");
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
     @Override
     public void addProductToInventory(Product product, Integer quantity) {
@@ -187,6 +174,7 @@ public class ProductDBDAO implements ProductDAOAdmin {
                 Integer quantity = resultSet.getInt(6);
                 addProductToList(product, quantity, productsList);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -208,5 +196,9 @@ public class ProductDBDAO implements ProductDAOAdmin {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public TreeMap<Product, Integer> getProductsList() {
+        return productsList;
     }
 }

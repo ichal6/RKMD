@@ -1,6 +1,7 @@
 package DAO;
 
 import Model.Client;
+import Model.UserAbstract;
 
 import java.io.IOException;
 import java.sql.*;
@@ -14,10 +15,12 @@ import java.util.logging.Logger;
 
 public class ClientsDatabaseDAO implements ClientsDAO {
 
-    private String url = "jdbc:postgresql://localhost:5432/online_shop";
-    private String user = "michael";
-    private String password = "1234";
-    private List<Client> ClientList;
+    private String url;
+    private String user;
+    private String password;
+  
+    private List<UserAbstract> ClientList;
+
 
     public ClientsDatabaseDAO() throws IOException {
         Properties prop = loginData.readProperties("src/main/resources/database.properties");
@@ -121,7 +124,7 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     }
 
     @Override
-    public List<Client> getClientList() {
+    public List<UserAbstract> getClientList() {
         return ClientList;
     }
 

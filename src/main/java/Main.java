@@ -6,6 +6,7 @@ import View.TerminalView;
 
 import java.io.IOException;
 
+
 public class Main {
 
     public static void main(String[] args) {
@@ -16,6 +17,5 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }
