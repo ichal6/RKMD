@@ -46,8 +46,7 @@ public class ControllerShop {
     }
 
     public TreeMap<Product, Integer> searchProducts() {
-        view.print("Please insert phrase to search: ");
-        String wordToSearch = "Kross"; // here It have to input
+        String wordToSearch = input.getStringInput("Please insert phrase to search: ");
         return dao.searchProducts(wordToSearch);
     }
 
@@ -62,11 +61,12 @@ public class ControllerShop {
 
     private void chooseProduct(TreeMap<Product, Integer> MapOfProducts){
         HashMap<Product, Integer> basket = controllerClient.getBasket();
-        view.print("Please choose product:");
+
         view.print(MapOfProducts);
-        String nameOfProduct = "Kross";//here must be input
-        view.print("Please choose quantity of product:");
-        int quantity = 2; //here must be input
+        String nameOfProduct = input.getStringInput("Please choose product:");
+
+        int quantity = input.getIntInput("Please choose quantity of product:");
+
         for(Map.Entry<Product,Integer> product : MapOfProducts.entrySet()){
             if(product.getKey().getProductName().equals(nameOfProduct) && product.getValue() >= quantity ){
                 if(basket.containsKey(product.getKey())){
@@ -83,8 +83,8 @@ public class ControllerShop {
     }
 
     private boolean tryToLogIn() {
-        String login = "straznik-kosmosu";//input.getStringInput("Please insert your login");
-        String passw = "koniecswiata";//input.getStringInput("Please insert your password");
+        String login = input.getStringInput("Please insert your login");
+        String passw = input.getStringInput("Please insert your password");
         return controllerClient.logIn(login, passw);
     }
 
