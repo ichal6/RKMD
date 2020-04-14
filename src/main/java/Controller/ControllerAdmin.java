@@ -50,7 +50,19 @@ public class ControllerAdmin {
     attributes[3] = input.getStringInput("Please provide with new product frame M/F");
     return attributes;
     }
-
+    private void updateQuantityOdProduct(){
+        String word = input.getStringInput("Please provide searching product");
+        productDAOAdmin.searchProducts(word);
+        TreeMap<Product, Integer> product = productDAOAdmin.getProductsList();
+        view.print(product);
+        Product updateProduct = product.firstKey();
+        int updateQuantity = input.getIntInput("Please provide with negative number or positive number to update quantity od product in inventory");
+        if(updateQuantity>0){
+            productDAOAdmin.updateInventory(updateProduct, updateQuantity);
+        }else{
+            productDAOAdmin.decreaseQuantity(updateProduct, Math.abs(updateQuantity));
+        }
+    }
 
     private boolean switchController(){
         Integer inputuser = input.getIntInput("Please provide with option to choose");
@@ -75,16 +87,7 @@ public class ControllerAdmin {
                 break;
             case 5:
                 System.out.println("update product");
-                int updateQuantity = input.getIntInput("Please provide with negative number or positive number to update quantity od product in inventory");
-                String word = input.getStringInput("Please provide searching product");
-                productDAOAdmin.searchProducts(word);
-                TreeMap<Product, Integer> product = productDAOAdmin.getProductsList();
-                Product updateProduct = product.firstKey();
-                if(updateQuantity>0){
-                    productDAOAdmin.updateInventory(updateProduct, updateQuantity);
-                }else{
-                    productDAOAdmin.decreaseQuantity(updateProduct, updateQuantity);
-                }
+                updateQuantityOdProduct();
                 break;
             case 6:
                 int ID = input.getIntInput("Please provide product ID to be delete");
