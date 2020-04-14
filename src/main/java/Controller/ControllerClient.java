@@ -41,4 +41,8 @@ public class ControllerClient {
             return false;
         }
     }
+
+    public void addUser(String[] clientToAdd) {
+        dao.addClient(clientToAdd);
+    }
 }

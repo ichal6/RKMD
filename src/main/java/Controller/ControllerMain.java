@@ -42,7 +42,8 @@ public class ControllerMain {
                 controllerShop.run();
                 break;
             case 2:
-                //controllerShop.
+                String[] dataAboutClient = createNewClient();
+                controllerShop.addUser(dataAboutClient);
                 break;
             case 3:
 
@@ -51,6 +52,10 @@ public class ControllerMain {
                 break;
         }
         return true;
+    }
+
+    private String[] createNewClient(){
+        return null;
     }
 
     public void run() throws IOException{

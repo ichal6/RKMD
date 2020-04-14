@@ -41,6 +41,10 @@ public class ControllerShop {
         } while (isRun);
     }
 
+    public void addUser(String[] clientToAdd){
+        controllerClient.addUser(clientToAdd);
+    }
+
     public TreeMap<Product, Integer> searchProducts() {
         view.print("Please insert phrase to search: ");
         String wordToSearch = "Kross"; // here It have to input
