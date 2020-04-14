@@ -45,4 +45,8 @@ public class ControllerClient {
     public void addUser(String[] clientToAdd) {
         dao.addClient(clientToAdd);
     }
+
+    public void removeFromBasket(Product productToRemove){
+        client.removeFromBasket(productToRemove);
+    }
 }

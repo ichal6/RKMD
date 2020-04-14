@@ -17,7 +17,7 @@ public class ControllerShop {
     private InputManager input;
     private ProductDAO dao;
     private ControllerClient controllerClient;
-    private String[] menuContent = new String[4];
+    private String[] menuContent = new String[5];
     private String label = "Welcome to our shop";
 
     public ControllerShop(AbstractView view, InputManager input, ProductDAO dao) throws IOException {
@@ -59,6 +59,20 @@ public class ControllerShop {
         // We must call method add new row to table order. Do we need new DAO for Order?
     }
 
+    private void removeProductFromBasket(){
+        HashMap<Product, Integer> basket = controllerClient.getBasket();
+        view.print(basket);
+        String nameOfProduct = input.getStringInput("Please provide name of product to remove from basket:");
+
+        for (Map.Entry<Product, Integer> product : basket.entrySet()) {
+            if(product.getKey().getProductName().equals(nameOfProduct)){
+                controllerClient.removeFromBasket(product.getKey());
+                return;
+            }
+        }
+        view.print("Product not found! Nothing delete from basket.");
+    }
+
     private void chooseProduct(TreeMap<Product, Integer> MapOfProducts){
         HashMap<Product, Integer> basket = controllerClient.getBasket();
 
@@ -93,6 +107,7 @@ public class ControllerShop {
         menuContent[1] = "1. Search product";
         menuContent[2] = "2. Display basket";
         menuContent[3] = "3. Checkout";
+        menuContent[4] = "4. Remove from basket";
     }
 
     private boolean switchController() {
@@ -108,6 +123,9 @@ public class ControllerShop {
                 break;
             case 3:
                 executeOrder();
+                break;
+            case 4:
+                removeProductFromBasket();
                 break;
         }
         return true;
