@@ -10,15 +10,7 @@ public class Client extends UserAbstract {
         super(dataAboutClient);
         basket = new HashMap<>();
     }
-
-    public void removeFromBasket(Product deleteProduct){
-        basket.remove(deleteProduct);
-    }
-
-    public void clearBasket(){
-        basket.clear();
-    }
-
+    
     public HashMap<Product, Integer> getBasket() {
         return basket;
     }
