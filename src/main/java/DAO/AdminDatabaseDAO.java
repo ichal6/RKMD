@@ -74,11 +74,19 @@ public class AdminDatabaseDAO implements AdminDAO {
 
 
     private void updateAdminsAccountDetails(Integer acc_ID, String[] newAttributes){
-       String updateStatement = String.format("UPDATE accountdetails SET password = '%s', login = '%s' WHERE accountdetails_id = %d",
-            newAttributes[2],
-            newAttributes[3],
-            acc_ID);
-       updateDB(updateStatement);
+       String updateStatement = ("UPDATE accountdetails SET password = ?, login = ? WHERE accountdetails_id = ?");
+        try(Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement pst = con.prepareStatement(updateStatement))
+        {
+            pst.setString(1,newAttributes[2]);
+            pst.setString(2,newAttributes[3]);
+            pst.setInt(3,acc_ID);
+            pst.executeUpdate();
+
+        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+            view.print("Something went wrong in DB accountDetails");
+        }
     }
 
 
@@ -126,7 +134,7 @@ public class AdminDatabaseDAO implements AdminDAO {
 
     @Override
     public void updateAdmin(Integer user_ID, String[] newAttributes) {
-
+        updateAdminsAccountDetails(user_ID, newAttributes);
         String updateStatement = ("UPDATE user_table SET first_name = ?, last_name = ? WHERE user_id = ?");
         try(Connection con = DriverManager.getConnection(url, user, password);
             PreparedStatement pst = con.prepareStatement(updateStatement))
@@ -140,7 +148,6 @@ public class AdminDatabaseDAO implements AdminDAO {
 //            throwables.printStackTrace();
             view.print("Something went wrong in DB User");
         }
-//        updateAdminsAccountDetails(user_ID, newAttributes);        //since accountdetail_ID will be always same as user_ID
     }
 
 
