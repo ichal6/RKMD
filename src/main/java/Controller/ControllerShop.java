@@ -4,6 +4,7 @@ package Controller;
 import DAO.ClientsDatabaseDAO;
 import DAO.ProductDAO;
 import Interaction.InputManager;
+import Model.Client;
 import Model.Product;
 import View.AbstractView;
 
@@ -18,9 +19,11 @@ public class ControllerShop {
     private ProductDAO dao;
     private ControllerClient controllerClient;
     private String[] menuContent = new String[6];
+    private ControllerOrder controllerOrder;
     private String label = "Welcome to our shop";
 
     public ControllerShop(AbstractView view, InputManager input, ProductDAO dao) throws IOException {
+        controllerOrder = new ControllerOrder();
         controllerClient = new ControllerClient(view, input, new ClientsDatabaseDAO());
         this.view = view;
         this.input = input;
@@ -30,10 +33,16 @@ public class ControllerShop {
     }
 
     public void run() {
-        boolean isLogIn = false;
-        while (!isLogIn){
+        boolean isLogIn;
+        do{
             isLogIn = tryToLogIn();
-        }
+            if(!isLogIn){
+                view.print("Sorry you provide with incorrect login or password");
+                if(input.getIntInput("To Exit press '0' or press '1' to try again") == 0){
+                    return;
+                }
+            }
+        }while (!isLogIn);
         boolean isRun = true;
         do {
             view.print(menuContent, label);
@@ -55,8 +64,10 @@ public class ControllerShop {
         for(Map.Entry<Product,Integer> product : mapOfProducts.entrySet()){
             dao.decreaseQuantity(product.getKey(), product.getValue());
         }
+        HashMap<Product, Integer> basket = controllerClient.getBasket();
+        Client client = controllerClient.getClient();
+        controllerOrder.createOrder(basket,client);
         controllerClient.clearBasket();
-        // We must call method add new row to table order. Do we need new DAO for Order?
     }
 
     private void removeProductFromBasket(){

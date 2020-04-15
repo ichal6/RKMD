@@ -24,6 +24,12 @@ public class ControllerMain {
 
     }
 
+    public void run() throws IOException{
+        boolean isRun;
+        do{
+            isRun = switchController();
+        }while(isRun);
+    }
 
     private void fillMenuContent() {
         menuContent[0] = "0. Exit";
@@ -68,12 +74,4 @@ public class ControllerMain {
         return data;
     }
 
-    public void run() throws IOException{
-
-        boolean isRun;
-        do{
-
-            isRun = switchController();
-        }while(isRun);
-    }
 }
