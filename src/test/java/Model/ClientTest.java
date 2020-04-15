@@ -37,6 +37,20 @@ public class ClientTest {
     }
 
     @Test
+    public void should_add_one_count_of_simple_product_to_basket() {
+        //given
+        int quantitySimple = 1;
+        int expected = 1;
+        Client clientSimple = new Client(dataOfClient);
+        Product productSimple = new Product(productData);
+        //when
+        clientSimple.addToBasket(productSimple, quantitySimple);
+        int result = clientSimple.getBasket().get(productSimple);
+        //then
+        assertEquals(result, expected);
+    }
+
+    @Test
     public void removeFromBasket() {
     }
 }
