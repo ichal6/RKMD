@@ -13,8 +13,8 @@ public class ControllerClient {
     private InputManager input;
     private ClientsDAO dao;
 
-
     private Client client;
+    private HashMap<Product, Integer> basket = client.getBasket();
 
     public ControllerClient(AbstractView view, InputManager input, ClientsDAO dao) {
         this.view = view;
@@ -23,17 +23,16 @@ public class ControllerClient {
     }
 
     public void addToBasket(Product product, Integer quantity) {
-        HashMap<Product, Integer> basket = client.getBasket();
-        if(basket.containsKey(product)){
+        if (basket.containsKey(product)) {
             int count = basket.get(product) + quantity;
             basket.put(product, count);
-        }else{
+        } else {
             basket.put(product, quantity);
         }
     }
 
     public void clearBasket() {
-        client.clearBasket();
+        basket.clear();
     }
 
     public HashMap<Product, Integer> getBasket() {
@@ -54,7 +53,8 @@ public class ControllerClient {
     }
 
     public void removeFromBasket(Product productToRemove) {
-        client.removeFromBasket(productToRemove);
+
+        basket.remove(productToRemove);
     }
 
     public void resetPassword() {
