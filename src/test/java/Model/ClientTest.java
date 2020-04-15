@@ -22,6 +22,21 @@ public class ClientTest {
     }
 
     @Test
+    public void should_add_four_count_of_simple_product_to_basket() {
+        //given
+        int quantitySimple = 2;
+        int expected = 4;
+        Client clientSimple = new Client(dataOfClient);
+        Product productSimple = new Product(productData);
+        //when
+        clientSimple.addToBasket(productSimple, quantitySimple);
+        clientSimple.addToBasket(productSimple, quantitySimple);
+        int result = clientSimple.getBasket().get(productSimple);
+        //then
+        assertEquals(result, expected);
+    }
+
+    @Test
     public void removeFromBasket() {
     }
 }
