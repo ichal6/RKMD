@@ -49,9 +49,17 @@ public class AdminDatabaseDAO implements AdminDAO {
 
 
     private void deleteFromAccountDetails(Integer user_ID){
-        String deleteStatement= String.format("DELETE FROM accountdetails WHERE accountdetails_id = %d" ,
-                user_ID);
-        updateDB(deleteStatement);
+        String deleteStatement= ("DELETE FROM accountdetails WHERE accountdetails_id = ?");
+        try (Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement pst = con.prepareStatement(deleteStatement))
+        {
+            pst.setInt(1,user_ID);
+            pst.executeUpdate();
+
+        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+            view.print("Something went wrong in DB AccountDetails");
+        }
     }
 
 
@@ -164,10 +172,7 @@ public class AdminDatabaseDAO implements AdminDAO {
 //            throwables.printStackTrace();
             view.print("Something went wrong in DB User");
         }
-//        String deleteFromUserStatement = String.format("DELETE FROM User_table WHERE user_id = '%d'",
-//            user_ID);
-//        updateDB(deleteFromUserStatement);
-//        deleteFromAccountDetails(user_ID);
+        deleteFromAccountDetails(user_ID);
     }
 
 
