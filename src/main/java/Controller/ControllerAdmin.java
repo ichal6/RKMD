@@ -5,8 +5,11 @@ import DAO.ClientsDAO;
 import DAO.ProductDAOAdmin;
 import Interaction.InputManager;
 import Model.Product;
+import Model.UserAbstract;
 import View.AbstractView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
@@ -86,14 +89,16 @@ public class ControllerAdmin {
     }
 
 
-    private void getSpecificAdmin() {
-        String searchingWord = input.getStringInput("Please provide with searching word");
+    public List<UserAbstract> getSpecificAdmin(String searchingWord) {
+        List<UserAbstract> adminList= new ArrayList<>();
         adminDAO.getSpecificAdmin(searchingWord);
         if (adminDAO.getAdminList().isEmpty()) {
             view.print("There is no such Admin\n");
         } else {
-            view.print(adminDAO.getAdminList());
+            adminList = adminDAO.getAdminList();
+            view.print(adminList);
         }
+        return adminList;
     }
 
 
@@ -126,7 +131,8 @@ public class ControllerAdmin {
                 productDAOAdmin.deleteProduct(ID);
                 break;
             case 7:
-                getSpecificAdmin();
+                String searchingWord = input.getStringInput("Please provide with searching word");
+                getSpecificAdmin(searchingWord);
                 break;
             case 8:
                 getSpecificProduct();
