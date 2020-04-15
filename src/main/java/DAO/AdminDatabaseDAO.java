@@ -19,12 +19,14 @@ public class AdminDatabaseDAO implements AdminDAO {
     private String user = "dariusz";
     private String password = "polska";
     private List<UserAbstract> AdminList;
+    private TerminalView view;
 
     public AdminDatabaseDAO() throws IOException {
         Properties prop = loginData.readProperties("src/main/resources/database.properties");
         url = prop.getProperty("db.url");
         user = prop.getProperty("db.user");
         password = prop.getProperty("db.passwd");
+        view = new TerminalView();
     }
 
     private void updateDB(String query){
@@ -54,12 +56,20 @@ public class AdminDatabaseDAO implements AdminDAO {
 
 
     private void addAdminToAccountDetails(String [] adminToAdd){
-        String date = getActualDate();
-        String AddToAccountDetailsStatement = String.format("INSERT INTO accountdetails VALUES (DEFAULT, '%s', '%s', '%s')",
-                date,
-                adminToAdd[2],
-                adminToAdd[3]);
-        updateDB(AddToAccountDetailsStatement);
+        java.util.Date now = new Date();
+        String AddToAccountDetailsStatement = ("INSERT INTO accountdetails VALUES (DEFAULT, ?, ?, ?)");
+        try (Connection con = DriverManager.getConnection(url, user, password);
+        PreparedStatement pst = con.prepareStatement(AddToAccountDetailsStatement))
+        {
+            pst.setDate(1,new java.sql.Date(now.getTime()));
+            pst.setString(2,adminToAdd[2]);
+            pst.setString(3,adminToAdd[3]);
+            pst.executeUpdate();
+            con.close();
+        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+            view.print("Something went wrong in DB AccountDetail");
+        }
     }
 
 
@@ -99,21 +109,19 @@ public class AdminDatabaseDAO implements AdminDAO {
 
     @Override
     public void addAdmin(String [] adminToAdd) {
-        String AddToUser_tableStatement = "INSERT INTO User_table VALUES (DEFAULT, ?, ?, ?, DEFAULT)";
+        addAdminToAccountDetails(adminToAdd);
+        String AddToUser_tableStatement = "INSERT INTO User_table VALUES (DEFAULT, ?, ?, '1', DEFAULT)";
         try (Connection con = DriverManager.getConnection(url, user, password);
               PreparedStatement pst = con.prepareStatement(AddToUser_tableStatement))
         {
           pst.setString(1, adminToAdd[0]);
           pst.setString(2, adminToAdd[1]);
-          pst.setInt(3,Integer.parseInt(adminToAdd[4]));
-
+          pst.executeUpdate();
+          con.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            TerminalView view = new TerminalView();
-            view.print("Something went wrong in DB");
+            view.print("Something went wrong in DB User");
         }
-//        addAdminToAccountDetails(adminToAdd);
-
     }
 
 
