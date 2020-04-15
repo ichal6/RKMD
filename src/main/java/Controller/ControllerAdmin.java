@@ -47,6 +47,10 @@ public class ControllerAdmin {
         return adminDAO.checkIsAdmin(login, password);
     }
 
+    public void addAdmin(String[] adminToAdd){
+        adminDAO.addAdmin(adminToAdd);
+    }
+
     private String[] newProductAttributes(){
     String[] attributes = new String[4];
     attributes[0] = input.getStringInput("Please provide with new product name");

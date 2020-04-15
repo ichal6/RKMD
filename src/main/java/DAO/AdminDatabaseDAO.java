@@ -62,8 +62,8 @@ public class AdminDatabaseDAO implements AdminDAO {
         PreparedStatement pst = con.prepareStatement(AddToAccountDetailsStatement))
         {
             pst.setDate(1,new java.sql.Date(now.getTime()));
-            pst.setString(2,adminToAdd[2]);
-            pst.setString(3,adminToAdd[3]);
+            pst.setString(2,adminToAdd[3]);
+            pst.setString(3,adminToAdd[2]);
             pst.executeUpdate();
             con.close();
         } catch (SQLException throwables) {
