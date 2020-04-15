@@ -51,6 +51,16 @@ public class ClientTest {
     }
 
     @Test
-    public void removeFromBasket() {
+    public void should_remove_one_product_from_basket() {
+        //given
+        int quantitySimple = 1;
+        Client clientSimple = new Client(dataOfClient);
+        Product productSimple = new Product(productData);
+        //when
+        clientSimple.addToBasket(productSimple, quantitySimple);
+        clientSimple.removeFromBasket(productSimple);
+        boolean isProduct = clientSimple.getBasket().containsKey(productSimple);
+        //then
+        assertFalse(isProduct);
     }
 }
