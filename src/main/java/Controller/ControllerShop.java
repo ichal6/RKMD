@@ -33,10 +33,16 @@ public class ControllerShop {
     }
 
     public void run() {
-        boolean isLogIn = false;
-        while (!isLogIn){
+        boolean isLogIn;
+        do{
             isLogIn = tryToLogIn();
-        }
+            if(!isLogIn){
+                view.print("Sorry you provide with incorrect login or password");
+                if(input.getIntInput("To Exit press '0' or press '1' to try again") == 0){
+                    return;
+                }
+            }
+        }while (!isLogIn);
         boolean isRun = true;
         do {
             view.print(menuContent, label);
