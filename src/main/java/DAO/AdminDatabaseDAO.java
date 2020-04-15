@@ -2,6 +2,7 @@ package DAO;
 
 import Model.Admin;
 import Model.UserAbstract;
+import View.TerminalView;
 
 import java.io.IOException;
 import java.sql.*;
@@ -98,12 +99,21 @@ public class AdminDatabaseDAO implements AdminDAO {
 
     @Override
     public void addAdmin(String [] adminToAdd) {
-        addAdminToAccountDetails(adminToAdd);
-        String AddToUser_tableStatement = String.format("INSERT INTO User_table VALUES (DEFAULT, '%s', '%s', '%d', DEFAULT)",
-            adminToAdd[0],
-            adminToAdd[1],
-            Integer.parseInt(adminToAdd[4]));
-        updateDB(AddToUser_tableStatement);
+        String AddToUser_tableStatement = "INSERT INTO User_table VALUES (DEFAULT, ?, ?, ?, DEFAULT)";
+        try (Connection con = DriverManager.getConnection(url, user, password);
+              PreparedStatement pst = con.prepareStatement(AddToUser_tableStatement))
+        {
+          pst.setString(1, adminToAdd[0]);
+          pst.setString(2, adminToAdd[1]);
+          pst.setInt(3,Integer.parseInt(adminToAdd[4]));
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            TerminalView view = new TerminalView();
+            view.print("Something went wrong in DB");
+        }
+//        addAdminToAccountDetails(adminToAdd);
+
     }
 
 
