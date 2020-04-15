@@ -23,7 +23,13 @@ public class ControllerClient {
     }
 
     public void addToBasket(Product product, Integer quantity) {
-        client.addToBasket(product, quantity);
+        HashMap<Product, Integer> basket = client.getBasket();
+        if(basket.containsKey(product)){
+            int count = basket.get(product) + quantity;
+            basket.put(product, count);
+        }else{
+            basket.put(product, quantity);
+        }
     }
 
     public void clearBasket() {
