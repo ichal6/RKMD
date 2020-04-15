@@ -42,8 +42,8 @@ public class ControllerAdmin {
 
     }
     public boolean tryToLogIn(){
-        String login = "goracykonrad";
-        String password = "konradpass1";
+        String login = input.getStringInput("Please provide with login");
+        String password = input.getStringInput("Please provide with password");
         return adminDAO.checkIsAdmin(login, password);
     }
 
@@ -94,8 +94,8 @@ public class ControllerAdmin {
 
 
     private boolean switchController(){
-        Integer inputuser = input.getIntInput("Please provide with option to choose");
-        switch (inputuser){
+        int inputUser = input.getIntInput("Please provide with option to choose");
+        switch (inputUser){
             case 0:
                 return false;
             case 1:
@@ -131,12 +131,22 @@ public class ControllerAdmin {
     }
 
     public void run() {
-        boolean isLogIn = false;
+        boolean isLogIn;
+        isLogIn = tryToLogIn();
         while (!isLogIn){
-            isLogIn = tryToLogIn();
+            view.print("Sorry you provide with incorrect login or password");
+            String userChoice = input.getStringInput("To Exit press '0' or any key to try one more time");
+            if(userChoice.equals("0")){
+                break;
+            }else{
+                isLogIn = tryToLogIn();
+            }
         }
         boolean isRun;
         do {
+            if(!isLogIn){
+                break;
+            }
             view.print(menuContent, label);
             isRun = switchController();
         } while (isRun);
