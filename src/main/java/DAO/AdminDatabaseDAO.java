@@ -15,9 +15,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AdminDatabaseDAO implements AdminDAO {
-    private String url = "jdbc:postgresql://localhost:5432/online_shop";
-    private String user = "dariusz";
-    private String password = "polska";
+    private String url;
+    private String user;
+    private String password;
     private List<UserAbstract> AdminList;
     private TerminalView view;
 
@@ -27,24 +27,6 @@ public class AdminDatabaseDAO implements AdminDAO {
         user = prop.getProperty("db.user");
         password = prop.getProperty("db.passwd");
         view = new TerminalView();
-    }
-
-    private void updateDB(String query){
-        try {
-            Connection con = DriverManager.getConnection(url, user, password);
-            PreparedStatement pst = con.prepareStatement(query);
-            pst.executeUpdate();
-            con.close();
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private String getActualDate(){
-        java.util.Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.format(date);
     }
 
 
