@@ -8,18 +8,10 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) {
-//        ControllerMain main = null;
-//        try {
-//            main = new ControllerMain(new TerminalView(),new InputManager());
-//            main.run();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        ControllerMain main = null;
         try {
-            AdminDatabaseDAO db = new AdminDatabaseDAO();
-//            String[] newUser = new String[]{"Daroslawa","MiroslawAAA","zow ocowa","goracydaroslaw"};
-//            db.updateAdmin(9,newUser);
-            db.deleteAdmin(8);
+            main = new ControllerMain(new TerminalView(),new InputManager());
+            main.run();
         } catch (IOException e) {
             e.printStackTrace();
         }
