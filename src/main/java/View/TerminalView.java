@@ -1,7 +1,7 @@
 package View;
 
 import Model.Product;
-import Model.UserAbstract;
+import Model.User;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +17,7 @@ public class TerminalView extends AbstractView {
     }
 
     @Override
-    public void print(List<UserAbstract> PersonsList) {
+    public void print(List<User> PersonsList) {
         String ID = "ID";
         String First_Name = "First Name";
         String Last_Name = "Last Name";
@@ -28,7 +28,7 @@ public class TerminalView extends AbstractView {
                                     Last_Name,
                                     Login);
         System.out.println(Menu);
-        for (UserAbstract person: PersonsList
+        for (User person: PersonsList
         ) {
             System.out.println(person.toString());
         }

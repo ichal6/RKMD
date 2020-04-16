@@ -3,11 +3,16 @@ package Model;
 
 import java.util.HashMap;
 
-public class Client extends UserAbstract {
+public class Client extends User {
     HashMap<Product, Integer> basket;
 
     public Client(String[] dataAboutClient) {
         super(dataAboutClient);
+        basket = new HashMap<>();
+    }
+
+    public Client(Builder builder){
+        super(builder);
         basket = new HashMap<>();
     }
     

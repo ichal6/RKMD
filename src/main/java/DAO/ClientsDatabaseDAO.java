@@ -1,7 +1,7 @@
 package DAO;
 
 import Model.Client;
-import Model.UserAbstract;
+import Model.User;
 
 import java.io.IOException;
 import java.sql.*;
@@ -19,11 +19,11 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     private String user;
     private String password;
   
-    private List<UserAbstract> ClientList;
+    private List<User> ClientList;
 
 
     public ClientsDatabaseDAO() throws IOException {
-        Properties prop = loginData.readProperties("src/main/resources/database.properties");
+        Properties prop = LoginData.readProperties("src/main/resources/database.properties");
         url = prop.getProperty("db.url");
         user = prop.getProperty("db.user");
         password = prop.getProperty("db.passwd");
@@ -124,7 +124,7 @@ public class ClientsDatabaseDAO implements ClientsDAO {
     }
 
     @Override
-    public List<UserAbstract> getClientList() {
+    public List<User> getClientList() {
         return ClientList;
     }
 

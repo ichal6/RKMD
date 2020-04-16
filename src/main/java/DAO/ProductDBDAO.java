@@ -19,7 +19,7 @@ public class ProductDBDAO implements ProductDAOAdmin {
     String password;
 
     public ProductDBDAO() throws IOException {
-        Properties prop = loginData.readProperties("src/main/resources/database.properties");
+        Properties prop = LoginData.readProperties("src/main/resources/database.properties");
         url = prop.getProperty("db.url");
         user = prop.getProperty("db.user");
         password = prop.getProperty("db.passwd");
@@ -73,6 +73,7 @@ public class ProductDBDAO implements ProductDAOAdmin {
         }
         return false;
     }
+
     public Integer getCurrentQuantity(Product product){
         Integer currentQuantity = 0;
         String query =

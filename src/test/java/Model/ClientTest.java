@@ -1,22 +1,29 @@
 package Model;
 
+import Controller.ControllerClient;
+import Input.InputManager;
+import View.TerminalView;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class ClientTest {
-    String[] dataOfClient = {"ID", "name", "surname", "login", "password"};
     String[] productData = {"name", "1234", "color", "typeOfFrame"};
+    ControllerClient controllerClient;
+
+    public ClientTest(){
+        controllerClient = new ControllerClient(new TerminalView(), new InputManager(), new ClientDAOFake());
+        controllerClient.logIn("Simple","simple");
+    }
 
     @Test
     public void should_add_two_count_of_simple_product_to_basket() {
         //given
         int quantitySimple = 2;
-        Client clientSimple = new Client(dataOfClient);
         Product productSimple = new Product(productData);
         //when
-        clientSimple.addToBasket(productSimple, quantitySimple);
-        int expected = clientSimple.getBasket().get(productSimple);
+        controllerClient.addToBasket(productSimple, quantitySimple);
+        int expected = controllerClient.getBasket().get(productSimple);
         //then
         assertEquals(quantitySimple, expected);
     }
@@ -26,12 +33,11 @@ public class ClientTest {
         //given
         int quantitySimple = 2;
         int expected = 4;
-        Client clientSimple = new Client(dataOfClient);
         Product productSimple = new Product(productData);
         //when
-        clientSimple.addToBasket(productSimple, quantitySimple);
-        clientSimple.addToBasket(productSimple, quantitySimple);
-        int result = clientSimple.getBasket().get(productSimple);
+        controllerClient.addToBasket(productSimple, quantitySimple);
+        controllerClient.addToBasket(productSimple, quantitySimple);
+        int result = controllerClient.getBasket().get(productSimple);
         //then
         assertEquals(result, expected);
     }
@@ -41,11 +47,10 @@ public class ClientTest {
         //given
         int quantitySimple = 1;
         int expected = 1;
-        Client clientSimple = new Client(dataOfClient);
         Product productSimple = new Product(productData);
         //when
-        clientSimple.addToBasket(productSimple, quantitySimple);
-        int result = clientSimple.getBasket().get(productSimple);
+        controllerClient.addToBasket(productSimple, quantitySimple);
+        int result = controllerClient.getBasket().get(productSimple);
         //then
         assertEquals(result, expected);
     }
@@ -54,12 +59,11 @@ public class ClientTest {
     public void should_remove_one_product_from_basket() {
         //given
         int quantitySimple = 1;
-        Client clientSimple = new Client(dataOfClient);
         Product productSimple = new Product(productData);
         //when
-        clientSimple.addToBasket(productSimple, quantitySimple);
-        clientSimple.removeFromBasket(productSimple);
-        boolean isProduct = clientSimple.getBasket().containsKey(productSimple);
+        controllerClient.addToBasket(productSimple, quantitySimple);
+        controllerClient.removeFromBasket(productSimple);
+        boolean isProduct = controllerClient.getBasket().containsKey(productSimple);
         //then
         assertFalse(isProduct);
     }

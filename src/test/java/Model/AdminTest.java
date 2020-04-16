@@ -4,7 +4,7 @@ import Controller.ControllerAdmin;
 import DAO.AdminDatabaseDAO;
 import DAO.ClientsDatabaseDAO;
 import DAO.ProductDBDAO;
-import Interaction.InputManager;
+import Input.InputManager;
 import View.TerminalView;
 import org.junit.Test;
 
@@ -18,7 +18,7 @@ public class AdminTest {
 
     {
         try {
-            AC = new ControllerAdmin(new TerminalView(), new InputManager(),new AdminDatabaseDAO(), new ClientsDatabaseDAO(), new ProductDBDAO());
+            AC = new ControllerAdmin(new TerminalView(), new InputManager(),new AdminDatabaseDAO(), new ClientDAOFake(), new ProductDBDAO());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -28,9 +28,9 @@ public class AdminTest {
     public void should_create_Admin(){
         //when
         AC.addAdmin(newAdmin);
-        List<UserAbstract> adminsList;
+        List<User> adminsList;
         adminsList = AC.getSpecificAdmin("Admin Name");
-        UserAbstract createdAdmin = adminsList.get(0);
+        User createdAdmin = adminsList.get(0);
         //then
         assertEquals(createdAdmin.getName(),newAdmin[0]);
         assertEquals(createdAdmin.getSurname(),newAdmin[1]);

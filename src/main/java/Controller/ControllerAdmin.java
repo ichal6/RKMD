@@ -3,9 +3,9 @@ package Controller;
 import DAO.AdminDAO;
 import DAO.ClientsDAO;
 import DAO.ProductDAOAdmin;
-import Interaction.InputManager;
+import Input.InputManager;
 import Model.Product;
-import Model.UserAbstract;
+import Model.User;
 import View.AbstractView;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ public class ControllerAdmin {
     private AdminDAO adminDAO;
     private ClientsDAO clientDAO;
     private ProductDAOAdmin productDAOAdmin;
-    private String[] menuContent = new String[10];
+    private String[] menuContent = new String[11];
     private String label;
     private String login;
     private String password;
@@ -46,6 +46,7 @@ public class ControllerAdmin {
         menuContent[7] = "7. Search specific Admin";
         menuContent[8] = "8. Search specific Products";
         menuContent[9] = "9. Change password";
+        menuContent[10] = "10. Delete admin";
 
     }
     public boolean tryToLogIn(){
@@ -93,8 +94,8 @@ public class ControllerAdmin {
     }
 
 
-    public List<UserAbstract> getSpecificAdmin(String searchingWord) {
-        List<UserAbstract> adminList= new ArrayList<>();
+    public List<User> getSpecificAdmin(String searchingWord) {
+        List<User> adminList= new ArrayList<>();
         adminDAO.getSpecificAdmin(searchingWord);
         if (adminDAO.getAdminList().isEmpty()) {
             view.print("There is no such Admin\n");
@@ -107,7 +108,7 @@ public class ControllerAdmin {
     private void changePassword(){
         String[] updateAdmin = new String[4];
         adminDAO.getSpecificAdmin(login);
-        UserAbstract admin = adminDAO.getAdminList().get(0);
+        User admin = adminDAO.getAdminList().get(0);
         updateAdmin[0] = admin.getName();
         updateAdmin[1] = admin.getSurname();
         updateAdmin[2] = input.getStringInput("please provide with new password");
@@ -151,8 +152,15 @@ public class ControllerAdmin {
                 getSpecificProduct();
             case 9:
                 changePassword();
+            case 10:
+                deleteAdmin();
         }
         return true;
+    }
+
+    private void deleteAdmin(){
+        int user_ID = input.getIntInput("Please provide admin ID: ");
+        adminDAO.deleteAdmin(user_ID);
     }
 
     public void run() {

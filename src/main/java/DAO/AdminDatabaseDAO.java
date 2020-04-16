@@ -1,12 +1,10 @@
 package DAO;
 
-import Model.Admin;
-import Model.UserAbstract;
+import Model.User;
 import View.TerminalView;
 
 import java.io.IOException;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,11 +16,11 @@ public class AdminDatabaseDAO implements AdminDAO {
     private String url;
     private String user;
     private String password;
-    private List<UserAbstract> AdminList;
+    private List<User> AdminList;
     private TerminalView view;
 
     public AdminDatabaseDAO() throws IOException {
-        Properties prop = loginData.readProperties("src/main/resources/database.properties");
+        Properties prop = LoginData.readProperties("src/main/resources/database.properties");
         url = prop.getProperty("db.url");
         user = prop.getProperty("db.user");
         password = prop.getProperty("db.passwd");
@@ -94,7 +92,7 @@ public class AdminDatabaseDAO implements AdminDAO {
                 for(int index = 0;index < attributesNumber; index++){
                     adminAttributes[index] = rs.getString(index+1);
             }
-            Admin admin = new Admin(adminAttributes);
+            User admin = new User(adminAttributes);
             AdminList.add(admin);
             con.close();
             }
@@ -198,7 +196,7 @@ public class AdminDatabaseDAO implements AdminDAO {
                 for (int index = 0; index < attributesNumber; index++) {
                     adminAttributes[index] = rs.getString(index + 1);
                 }
-                Admin admin = new Admin(adminAttributes);
+                User admin = new User(adminAttributes);
                 AdminList.add(admin);
             }
         } catch (SQLException throwables) {
@@ -209,7 +207,7 @@ public class AdminDatabaseDAO implements AdminDAO {
 
 
         @Override
-    public List<UserAbstract> getAdminList() {
+    public List<User> getAdminList() {
         return AdminList;
     }
 }
