@@ -10,6 +10,11 @@ public class Client extends UserAbstract {
         super(dataAboutClient);
         basket = new HashMap<>();
     }
+
+    public Client(Builder builder){
+        super(builder);
+        basket = new HashMap<>();
+    }
     
     public HashMap<Product, Integer> getBasket() {
         return basket;
