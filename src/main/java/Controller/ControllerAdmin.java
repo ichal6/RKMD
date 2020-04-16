@@ -19,7 +19,7 @@ public class ControllerAdmin {
     private AdminDAO adminDAO;
     private ClientsDAO clientDAO;
     private ProductDAOAdmin productDAOAdmin;
-    private String[] menuContent = new String[10];
+    private String[] menuContent = new String[11];
     private String label;
     private String login;
     private String password;
@@ -46,6 +46,7 @@ public class ControllerAdmin {
         menuContent[7] = "7. Search specific Admin";
         menuContent[8] = "8. Search specific Products";
         menuContent[9] = "9. Change password";
+        menuContent[10] = "10. Delete admin";
 
     }
     public boolean tryToLogIn(){
@@ -151,8 +152,15 @@ public class ControllerAdmin {
                 getSpecificProduct();
             case 9:
                 changePassword();
+            case 10:
+                deleteAdmin();
         }
         return true;
+    }
+
+    private void deleteAdmin(){
+        int user_ID = input.getIntInput("Please provide admin ID: ");
+        adminDAO.deleteAdmin(user_ID);
     }
 
     public void run() {
