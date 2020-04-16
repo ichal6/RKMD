@@ -4,7 +4,7 @@ import Controller.ControllerAdmin;
 import DAO.AdminDatabaseDAO;
 import DAO.ClientsDatabaseDAO;
 import DAO.ProductDBDAO;
-import Interaction.InputManager;
+import Input.InputManager;
 import View.TerminalView;
 import org.junit.Test;
 

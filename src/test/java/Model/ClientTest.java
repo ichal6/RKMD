@@ -1,7 +1,7 @@
 package Model;
 
 import Controller.ControllerClient;
-import Interaction.InputManager;
+import Input.InputManager;
 import View.TerminalView;
 import org.junit.Test;
 

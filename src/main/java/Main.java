@@ -1,6 +1,5 @@
 import Controller.ControllerMain;
-import DAO.AdminDatabaseDAO;
-import Interaction.InputManager;
+import Input.InputManager;
 import View.TerminalView;
 import java.io.IOException;
 

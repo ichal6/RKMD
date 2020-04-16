@@ -3,7 +3,7 @@ package Controller;
 import DAO.AdminDAO;
 import DAO.ClientsDAO;
 import DAO.ProductDAOAdmin;
-import Interaction.InputManager;
+import Input.InputManager;
 import Model.Product;
 import Model.User;
 import View.AbstractView;

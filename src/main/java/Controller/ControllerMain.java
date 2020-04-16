@@ -1,7 +1,7 @@
 package Controller;
 
 import DAO.*;
-import Interaction.InputManager;
+import Input.InputManager;
 import View.AbstractView;
 
 import java.io.IOException;
