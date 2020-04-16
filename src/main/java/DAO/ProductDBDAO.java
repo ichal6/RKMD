@@ -13,10 +13,10 @@ public class ProductDBDAO implements ProductDAOAdmin {
     private TreeMap<Product, Integer> productsList;
     private Connection connectionToDB = null;
     private ResultSet resultSet;
-    PreparedStatement preparedStatement;
-    String url;
-    String user;
-    String password;
+    private PreparedStatement preparedStatement;
+    private String url;
+    private String user;
+    private String password;
 
     public ProductDBDAO() throws IOException {
         Properties prop = loginData.readProperties("src/main/resources/database.properties");
@@ -73,6 +73,7 @@ public class ProductDBDAO implements ProductDAOAdmin {
         }
         return false;
     }
+
     public Integer getCurrentQuantity(Product product){
         Integer currentQuantity = 0;
         String query =
