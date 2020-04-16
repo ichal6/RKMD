@@ -14,6 +14,14 @@ public abstract class UserAbstract {
         login = dataAboutClient[3];
         password = dataAboutClient[4];
     }
+    public UserAbstract(Builder builder){
+        ID = builder.getID();
+        name = builder.getName();
+        surname = builder.getSurname();
+        login = builder.getLogin();
+        password = builder.getPassword();
+    }
+
 
     public String[] getDataAboutClient(){
          String[] data = {ID, name, surname, login, password};
