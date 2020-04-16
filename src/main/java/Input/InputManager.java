@@ -1,4 +1,4 @@
-package Interaction;
+package Input;
 
 import View.TerminalView;
 

@@ -1,7 +1,7 @@
 package Controller;
 
 import DAO.ClientsDAO;
-import Interaction.InputManager;
+import Input.InputManager;
 import Model.Client;
 import Model.Product;
 import View.AbstractView;
@@ -13,8 +13,8 @@ public class ControllerClient {
     private InputManager input;
     private ClientsDAO dao;
 
-
     private Client client;
+
 
     public ControllerClient(AbstractView view, InputManager input, ClientsDAO dao) {
         this.view = view;
@@ -23,11 +23,18 @@ public class ControllerClient {
     }
 
     public void addToBasket(Product product, Integer quantity) {
-        client.addToBasket(product, quantity);
+        HashMap<Product, Integer> basket = client.getBasket();
+        if (basket.containsKey(product)) {
+            int count = basket.get(product) + quantity;
+            basket.put(product, count);
+        } else {
+            basket.put(product, quantity);
+        }
     }
 
     public void clearBasket() {
-        client.clearBasket();
+        HashMap<Product, Integer> basket = client.getBasket();
+        basket.clear();
     }
 
     public HashMap<Product, Integer> getBasket() {
@@ -48,7 +55,8 @@ public class ControllerClient {
     }
 
     public void removeFromBasket(Product productToRemove) {
-        client.removeFromBasket(productToRemove);
+        HashMap<Product, Integer> basket = client.getBasket();
+        basket.remove(productToRemove);
     }
 
     public void resetPassword() {

@@ -1,19 +1,27 @@
 package Model;
 
-public abstract class UserAbstract {
+public class User {
     protected String ID;
     protected String name;
     protected String surname;
     protected String login;
     protected String password;
 
-    public UserAbstract(String[] dataAboutClient){
+    public User(String[] dataAboutClient){
         ID = dataAboutClient[0];
         name = dataAboutClient[1];
         surname = dataAboutClient[2];
         login = dataAboutClient[3];
         password = dataAboutClient[4];
     }
+    public User(Builder builder){
+        ID = builder.getID();
+        name = builder.getName();
+        surname = builder.getSurname();
+        login = builder.getLogin();
+        password = builder.getPassword();
+    }
+
 
     public String[] getDataAboutClient(){
          String[] data = {ID, name, surname, login, password};

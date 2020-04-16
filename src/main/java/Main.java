@@ -1,9 +1,6 @@
 import Controller.ControllerMain;
-import Controller.ControllerShop;
-import DAO.ProductDBDAO;
-import Interaction.InputManager;
+import Input.InputManager;
 import View.TerminalView;
-
 import java.io.IOException;
 
 

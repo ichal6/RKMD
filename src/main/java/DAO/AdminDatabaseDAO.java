@@ -1,11 +1,10 @@
 package DAO;
 
-import Model.Admin;
-import Model.UserAbstract;
+import Model.User;
+import View.TerminalView;
 
 import java.io.IOException;
 import java.sql.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,60 +13,68 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AdminDatabaseDAO implements AdminDAO {
-    private String url = "jdbc:postgresql://localhost:5432/online_shop";
-    private String user = "dariusz";
-    private String password = "polska";
-    private List<UserAbstract> AdminList;
+    private String url;
+    private String user;
+    private String password;
+    private List<User> AdminList;
+    private TerminalView view;
 
     public AdminDatabaseDAO() throws IOException {
-        Properties prop = loginData.readProperties("src/main/resources/database.properties");
+        Properties prop = LoginData.readProperties("src/main/resources/database.properties");
         url = prop.getProperty("db.url");
         user = prop.getProperty("db.user");
         password = prop.getProperty("db.passwd");
-    }
-
-    private void updateDB(String query){
-        try {
-            Connection con = DriverManager.getConnection(url, user, password);
-            PreparedStatement pst = con.prepareStatement(query);
-            pst.executeUpdate();
-            con.close();
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    private String getActualDate(){
-        java.util.Date date = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.format(date);
+        view = new TerminalView();
     }
 
 
     private void deleteFromAccountDetails(Integer user_ID){
-        String deleteStatement= String.format("DELETE FROM accountdetails WHERE accountdetails_id = %d" ,
-                user_ID);
-        updateDB(deleteStatement);
+        String deleteStatement= ("DELETE FROM accountdetails WHERE accountdetails_id = ?");
+        try (Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement pst = con.prepareStatement(deleteStatement))
+        {
+            pst.setInt(1,user_ID);
+            pst.executeUpdate();
+
+        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+            view.print("Something went wrong in DB AccountDetails");
+        }
     }
 
 
     private void addAdminToAccountDetails(String [] adminToAdd){
-        String date = getActualDate();
-        String AddToAccountDetailsStatement = String.format("INSERT INTO accountdetails VALUES (DEFAULT, '%s', '%s', '%s')",
-                date,
-                adminToAdd[2],
-                adminToAdd[3]);
-        updateDB(AddToAccountDetailsStatement);
+        java.util.Date now = new Date();
+        String AddToAccountDetailsStatement = ("INSERT INTO accountdetails VALUES (DEFAULT, ?, ?, ?)");
+        try (Connection con = DriverManager.getConnection(url, user, password);
+        PreparedStatement pst = con.prepareStatement(AddToAccountDetailsStatement))
+        {
+            pst.setDate(1,new java.sql.Date(now.getTime()));
+            pst.setString(2,adminToAdd[3]);
+            pst.setString(3,adminToAdd[2]);
+            pst.executeUpdate();
+            con.close();
+        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+            view.print("Something went wrong in DB AccountDetail");
+        }
     }
 
 
     private void updateAdminsAccountDetails(Integer acc_ID, String[] newAttributes){
-       String updateStatement = String.format("UPDATE accountdetails SET password = '%s', login = '%s' WHERE accountdetails_id = %d",
-            newAttributes[2],
-            newAttributes[3],
-            acc_ID);
-       updateDB(updateStatement);
+       String updateStatement = ("UPDATE accountdetails SET password = ?, login = ? WHERE accountdetails_id = ?");
+        try(Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement pst = con.prepareStatement(updateStatement))
+        {
+            pst.setString(1,newAttributes[2]);
+            pst.setString(2,newAttributes[3]);
+            pst.setInt(3,acc_ID);
+            pst.executeUpdate();
+
+        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+            view.print("Something went wrong in DB accountDetails");
+        }
     }
 
 
@@ -85,7 +92,7 @@ public class AdminDatabaseDAO implements AdminDAO {
                 for(int index = 0;index < attributesNumber; index++){
                     adminAttributes[index] = rs.getString(index+1);
             }
-            Admin admin = new Admin(adminAttributes);
+            User admin = new User(adminAttributes);
             AdminList.add(admin);
             con.close();
             }
@@ -99,31 +106,55 @@ public class AdminDatabaseDAO implements AdminDAO {
     @Override
     public void addAdmin(String [] adminToAdd) {
         addAdminToAccountDetails(adminToAdd);
-        String AddToUser_tableStatement = String.format("INSERT INTO User_table VALUES (DEFAULT, '%s', '%s', '%d', DEFAULT)",
-            adminToAdd[0],
-            adminToAdd[1],
-            Integer.parseInt(adminToAdd[4]));
-        updateDB(AddToUser_tableStatement);
+        String AddToUser_tableStatement = "INSERT INTO User_table VALUES (DEFAULT, ?, ?, '1', DEFAULT)";
+        try (Connection con = DriverManager.getConnection(url, user, password);
+              PreparedStatement pst = con.prepareStatement(AddToUser_tableStatement))
+        {
+          pst.setString(1, adminToAdd[0]);
+          pst.setString(2, adminToAdd[1]);
+          pst.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            view.print("Something went wrong in DB User");
+        }
     }
 
 
     @Override
     public void updateAdmin(Integer user_ID, String[] newAttributes) {
-        updateAdminsAccountDetails(user_ID, newAttributes);        //since accountdetail_ID will be always same as user_ID
-        String updateStatement = String.format("UPDATE user_table SET first_name = '%s', last_name = '%s' WHERE user_id = %d",
-               newAttributes[0],
-                newAttributes[1],
-                user_ID);
-        updateDB(updateStatement);
+        updateAdminsAccountDetails(user_ID, newAttributes);
+        String updateStatement = ("UPDATE user_table SET first_name = ?, last_name = ? WHERE user_id = ?");
+        try(Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement pst = con.prepareStatement(updateStatement))
+        {
+            pst.setString(1,newAttributes[0]);
+            pst.setString(2,newAttributes[1]);
+            pst.setInt(3,user_ID);
+            pst.executeUpdate();
+
+        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+            view.print("Something went wrong in DB User");
+        }
     }
+
 
     @Override
     public void deleteAdmin(Integer user_ID) {
-        String deleteFromUserStatement = String.format("DELETE FROM User_table WHERE user_id = '%d'",
-            user_ID);
-        updateDB(deleteFromUserStatement);
+        String deleteFromUserStatement = ("DELETE FROM User_table WHERE user_id = ?");
+        try(Connection con = DriverManager.getConnection(url, user, password);
+            PreparedStatement pst = con.prepareStatement(deleteFromUserStatement))
+        {
+            pst.setInt(1,user_ID);
+            pst.executeUpdate();
+
+        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+            view.print("Something went wrong in DB User");
+        }
         deleteFromAccountDetails(user_ID);
     }
+
 
     @Override
     public boolean checkIsAdmin(String login, String password) {
@@ -146,6 +177,7 @@ public class AdminDatabaseDAO implements AdminDAO {
         return false;
     }
 
+
     @Override
     public void getSpecificAdmin(String word) {
         try (Connection con = DriverManager.getConnection(url, user, password);
@@ -156,7 +188,6 @@ public class AdminDatabaseDAO implements AdminDAO {
             pst.setString(3, word);
             ResultSet rs = pst.executeQuery();
 
-
             int attributesNumber = rs.getMetaData().getColumnCount();
             AdminList = new ArrayList<>();
             String[] adminAttributes = new String[attributesNumber];
@@ -165,9 +196,8 @@ public class AdminDatabaseDAO implements AdminDAO {
                 for (int index = 0; index < attributesNumber; index++) {
                     adminAttributes[index] = rs.getString(index + 1);
                 }
-                Admin admin = new Admin(adminAttributes);
+                User admin = new User(adminAttributes);
                 AdminList.add(admin);
-                con.close();
             }
         } catch (SQLException throwables) {
 //        throwables.printStackTrace();
@@ -177,7 +207,7 @@ public class AdminDatabaseDAO implements AdminDAO {
 
 
         @Override
-    public List<UserAbstract> getAdminList() {
+    public List<User> getAdminList() {
         return AdminList;
     }
 }

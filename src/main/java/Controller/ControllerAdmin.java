@@ -3,10 +3,13 @@ package Controller;
 import DAO.AdminDAO;
 import DAO.ClientsDAO;
 import DAO.ProductDAOAdmin;
-import Interaction.InputManager;
+import Input.InputManager;
 import Model.Product;
+import Model.User;
 import View.AbstractView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.TreeMap;
 
@@ -16,8 +19,10 @@ public class ControllerAdmin {
     private AdminDAO adminDAO;
     private ClientsDAO clientDAO;
     private ProductDAOAdmin productDAOAdmin;
-    private String[] menuContent = new String[9];
+    private String[] menuContent = new String[11];
     private String label;
+    private String login;
+    private String password;
 
     public ControllerAdmin(AbstractView view, InputManager input, AdminDAO adminDAo, ClientsDAO clientDAO, ProductDAOAdmin productDAOAdmin ){
     this.view = view;
@@ -27,6 +32,7 @@ public class ControllerAdmin {
     this.productDAOAdmin = productDAOAdmin;
         fillMenuContent();
     }
+
 
     public void fillMenuContent(){
         label = "Welcome to Admin Controller";
@@ -39,12 +45,18 @@ public class ControllerAdmin {
         menuContent[6] = "6. Delete Product";
         menuContent[7] = "7. Search specific Admin";
         menuContent[8] = "8. Search specific Products";
+        menuContent[9] = "9. Change password";
+        menuContent[10] = "10. Delete admin";
 
     }
     public boolean tryToLogIn(){
-        String login = "goracykonrad";
-        String password = "konradpass1";
+        login = input.getStringInput("Please provide with login");
+        password = input.getStringInput("Please provide with password");
         return adminDAO.checkIsAdmin(login, password);
+    }
+
+    public void addAdmin(String[] adminToAdd){
+        adminDAO.addAdmin(adminToAdd);
     }
 
     private String[] newProductAttributes(){
@@ -82,20 +94,31 @@ public class ControllerAdmin {
     }
 
 
-    private void getSpecificAdmin() {
-        String searchingWord = input.getStringInput("Please provide with searching word");
+    public List<User> getSpecificAdmin(String searchingWord) {
+        List<User> adminList= new ArrayList<>();
         adminDAO.getSpecificAdmin(searchingWord);
         if (adminDAO.getAdminList().isEmpty()) {
             view.print("There is no such Admin\n");
         } else {
-            view.print(adminDAO.getAdminList());
+            adminList = adminDAO.getAdminList();
+            view.print(adminList);
         }
+        return adminList;
+    }
+    private void changePassword(){
+        String[] updateAdmin = new String[4];
+        adminDAO.getSpecificAdmin(login);
+        User admin = adminDAO.getAdminList().get(0);
+        updateAdmin[0] = admin.getName();
+        updateAdmin[1] = admin.getSurname();
+        updateAdmin[2] = input.getStringInput("please provide with new password");
+        updateAdmin[3] = login;
+        adminDAO.updateAdmin(admin.getID(),updateAdmin);
     }
 
-
     private boolean switchController(){
-        Integer inputuser = input.getIntInput("Please provide with option to choose");
-        switch (inputuser){
+        int inputUser = input.getIntInput("Please provide with option to choose");
+        switch (inputUser){
             case 0:
                 return false;
             case 1:
@@ -122,23 +145,51 @@ public class ControllerAdmin {
                 productDAOAdmin.deleteProduct(ID);
                 break;
             case 7:
-                getSpecificAdmin();
+                String searchingWord = input.getStringInput("Please provide with searching word");
+                getSpecificAdmin(searchingWord);
                 break;
             case 8:
                 getSpecificProduct();
+            case 9:
+                changePassword();
+            case 10:
+                deleteAdmin();
         }
         return true;
     }
 
+    private void deleteAdmin(){
+        int user_ID = input.getIntInput("Please provide admin ID: ");
+        adminDAO.deleteAdmin(user_ID);
+    }
+
     public void run() {
-        boolean isLogIn = false;
+        boolean isLogIn;
+        isLogIn = tryToLogIn();
         while (!isLogIn){
-            isLogIn = tryToLogIn();
+            view.print("Sorry you provide with incorrect login or password");
+            String userChoice = input.getStringInput("To Exit press '0' or any key to try one more time");
+            if(userChoice.equals("0")){
+                break;
+            }else{
+                isLogIn = tryToLogIn();
+            }
         }
         boolean isRun;
         do {
+            if(!isLogIn){
+                break;
+            }
             view.print(menuContent, label);
             isRun = switchController();
         } while (isRun);
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

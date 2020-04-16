@@ -1,9 +1,8 @@
 package Controller;
 
 import DAO.*;
-import Interaction.InputManager;
+import Input.InputManager;
 import View.AbstractView;
-import View.TerminalView;
 
 import java.io.IOException;
 
@@ -24,6 +23,12 @@ public class ControllerMain {
 
     }
 
+    public void run() throws IOException{
+        boolean isRun;
+        do{
+            isRun = switchController();
+        }while(isRun);
+    }
 
     private void fillMenuContent() {
         menuContent[0] = "0. Exit";
@@ -46,16 +51,17 @@ public class ControllerMain {
                 controllerAdmin.run();
                 break;
             case 3:
-                String[] dataAboutClient = createNewClient();
+                String[] dataAboutClient = createNewUser();
                 controllerShop.addUser(dataAboutClient);
                 break;
             case 4:
+                createNewAdmin();
                 break;
         }
         return true;
     }
 
-    private String[] createNewClient(){
+    private String[] createNewUser(){
         String[] data = new String[4];
         String[] questions = {"name", "surname", "login", "password"};
         for(int index = 0; index < questions.length; index++){
@@ -68,12 +74,14 @@ public class ControllerMain {
         return data;
     }
 
-    public void run() throws IOException{
-
-        boolean isRun;
-        do{
-
-            isRun = switchController();
-        }while(isRun);
+    private void createNewAdmin(){
+        view.print("Please log in to actual admin: ");
+        if(controllerAdmin.tryToLogIn()){
+            view.print("Login successful! Please provide new admin:");
+            controllerAdmin.addAdmin(createNewUser());
+        }else{
+            view.print("You provide wrong login or password! Back to main menu.");
+        }
     }
+
 }

@@ -1,13 +1,12 @@
 package DAO;
 
-import Model.Admin;
-import Model.UserAbstract;
+import Model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface AdminDAO {
-     List<UserAbstract> AdminList = new ArrayList<>();
+     List<User> AdminList = new ArrayList<>();
 
      void getAllAdmins();   // return type need to be change for List<Admin>
      void addAdmin(String [] adminToAdd);
@@ -15,5 +14,5 @@ public interface AdminDAO {
      void deleteAdmin(Integer user_ID);
      boolean checkIsAdmin(String login, String password);
      void getSpecificAdmin(String word);
-     List<UserAbstract> getAdminList();
+     List<User> getAdminList();
 }
