@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Objects;
 
-public class Product implements Comparable<Product>{
+public class Product implements Comparable<Product> {
 
     private int productId;
     private String productName;
@@ -12,11 +12,59 @@ public class Product implements Comparable<Product>{
     private String productColor;
     private String frameType;
 
-    public Product(String[] productAttributes){
-            this.productName = productAttributes[0];
-            this.productPrice = Integer.parseInt(productAttributes[1]);
-            this.productColor = productAttributes[2];
-            this.frameType = productAttributes[3];
+    public Product() {
+    }
+
+    public static final class Builder {
+        private int productId;
+        private String productName;
+        private float productPrice;
+        private String productColor;
+        private String frameType;
+
+        public Builder productId(int productId) {
+            this.productId = productId;
+            return this;
+        }
+
+        public Builder productName(String productName) {
+            this.productName = productName;
+            return this;
+        }
+
+        public Builder productPrice(float productPrice) {
+            this.productPrice = productPrice;
+            return this;
+        }
+
+        public Builder productColor(String productColor) {
+            this.productColor = productColor;
+            return this;
+        }
+
+        public Builder frameType(String frameType) {
+            this.frameType = frameType;
+            return this;
+        }
+
+        public Product build() {
+
+            Product product = new Product();
+            product.productId = this.productId;
+            product.productName = this.productName;
+            product.productPrice = this.productPrice;
+            product.productColor = this.productColor;
+            product.frameType = this.frameType;
+            return product;
+        }
+    }
+
+
+    public Product(String[] productAttributes) {
+        this.productName = productAttributes[0];
+        this.productPrice = Integer.parseInt(productAttributes[1]);
+        this.productColor = productAttributes[2];
+        this.frameType = productAttributes[3];
     }
 
     public Product(ResultSet resultSet) throws SQLException {
@@ -32,6 +80,7 @@ public class Product implements Comparable<Product>{
         this.productColor = resultSet.getString(productColor);
         this.frameType = resultSet.getString(frameType);
     }
+
 
     public Integer getProductId() {
         return productId;
@@ -79,13 +128,11 @@ public class Product implements Comparable<Product>{
                 getPrice(),
                 getColor(),
                 getFrameType());
-
         return returnValue;
     }
 
     @Override
     public int compareTo(Product product) {
-//        return this.productName.compareTo(product.productName);
         return this.getProductId() - product.getProductId();
     }
 }
