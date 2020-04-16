@@ -1,12 +1,10 @@
 import Controller.ControllerMain;
-import DAO.AdminDatabaseDAO;
 import Interaction.InputManager;
 import View.TerminalView;
 import java.io.IOException;
 
 
 public class Main {
-
     public static void main(String[] args) {
         ControllerMain main = null;
         try {
