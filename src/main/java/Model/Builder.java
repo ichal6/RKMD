@@ -29,8 +29,8 @@ public class Builder {
         this.password = password;
         return this;
     }
-    public UserAbstract build(){
-        return new UserAbstract(this) {
+    public User build(){
+        return new User(this) {
         };
     }
 

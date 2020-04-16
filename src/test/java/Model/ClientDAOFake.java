@@ -4,8 +4,6 @@ import DAO.ClientsDAO;
 
 import java.util.List;
 
-import Model.Builder;
-
 public class ClientDAOFake implements ClientsDAO {
 
     @Override
@@ -42,7 +40,7 @@ public class ClientDAOFake implements ClientsDAO {
     }
 
     @Override
-    public List<UserAbstract> getClientList() {
+    public List<User> getClientList() {
         return null;
     }
 }

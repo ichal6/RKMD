@@ -5,7 +5,7 @@ import DAO.ClientsDAO;
 import DAO.ProductDAOAdmin;
 import Interaction.InputManager;
 import Model.Product;
-import Model.UserAbstract;
+import Model.User;
 import View.AbstractView;
 
 import java.util.ArrayList;
@@ -93,8 +93,8 @@ public class ControllerAdmin {
     }
 
 
-    public List<UserAbstract> getSpecificAdmin(String searchingWord) {
-        List<UserAbstract> adminList= new ArrayList<>();
+    public List<User> getSpecificAdmin(String searchingWord) {
+        List<User> adminList= new ArrayList<>();
         adminDAO.getSpecificAdmin(searchingWord);
         if (adminDAO.getAdminList().isEmpty()) {
             view.print("There is no such Admin\n");
@@ -107,7 +107,7 @@ public class ControllerAdmin {
     private void changePassword(){
         String[] updateAdmin = new String[4];
         adminDAO.getSpecificAdmin(login);
-        UserAbstract admin = adminDAO.getAdminList().get(0);
+        User admin = adminDAO.getAdminList().get(0);
         updateAdmin[0] = admin.getName();
         updateAdmin[1] = admin.getSurname();
         updateAdmin[2] = input.getStringInput("please provide with new password");

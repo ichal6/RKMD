@@ -3,7 +3,7 @@ package Model;
 
 import java.util.HashMap;
 
-public class Client extends UserAbstract {
+public class Client extends User {
     HashMap<Product, Integer> basket;
 
     public Client(String[] dataAboutClient) {

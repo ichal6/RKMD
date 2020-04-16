@@ -1,13 +1,13 @@
 package DAO;
 
 import Model.Client;
-import Model.UserAbstract;
+import Model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public interface ClientsDAO {
-    List<UserAbstract> ClientList = new ArrayList<>();
+    List<User> ClientList = new ArrayList<>();
 
     void getAllClients();
     void addClient(String [] clientToAdd);
@@ -18,6 +18,6 @@ public interface ClientsDAO {
     boolean checkIsClient(String login, String password);
     Client getClient(String login, String password);
   
-    List<UserAbstract> getClientList();
+    List<User> getClientList();
 
 }
