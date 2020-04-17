@@ -47,25 +47,27 @@ public class AdminTest {
         assertEquals(newAdmin[4], admin.getPassword());
     }
 
-    @Test
-    public void check_if_list_are_the_same() {
-        List<User> adminsList = new ArrayList<>();
-        adminsList.add(new User(new Builder().withID("10")
-                .withName("Michal")
-                .withSurname("Lechowicz")
-                .withLogin("goracymichal")
-                .withPassword("michalpass1")));
-        adminsList.add(new User(new Builder().withID("11")
-                .withName("Dariusz")
-                .withSurname("Raba")
-                .withLogin("goracydariusz")
-                .withPassword("dariuszpass1")));
-
-        adminDAO.getAllAdmins();
-        List<User> adminsListFromDB = adminDAO.getAdminList();
-
-        assertEquals(adminsList, adminsListFromDB);
-    }
+//    @Test
+//    public void check_if_list_are_the_same() {
+//        List<User> adminsList = new ArrayList<>();
+//        adminsList.add(new User(new Builder().withID("10")
+//                .withName("Michal")
+//                .withSurname("Lechowicz")
+//                .withLogin("goracymichal")
+//                .withPassword("michalpass1")));
+//        adminsList.add(new User(new Builder().withID("11")
+//                .withName("Dariusz")
+//                .withSurname("Raba")
+//                .withLogin("goracydariusz")
+//                .withPassword("dariuszpass1")));
+//        adminsList.add(new User(new String[]{"10","Michal","Lechowicz","goracymichal","michalpass1"}));
+//        adminsList.add(new User(new String[]{"11","Dariusz","Raba","goracydariusz","dariuszpass1"}));
+//
+//        adminDAO.getAllAdmins();
+//        List<User> adminsListFromDB = adminDAO.getAdminList();
+//
+//        assertEquals(adminsList, adminsListFromDB);
+//    }
 
 
 }
