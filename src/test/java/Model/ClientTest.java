@@ -12,7 +12,7 @@ public class ClientTest {
     ControllerClient controllerClient;
 
     public ClientTest(){
-        controllerClient = new ControllerClient(new TerminalView(), new InputManager(), new ClientDAOFake());
+        controllerClient = new ControllerClient(new TerminalView(), new InputManager(), new Model.ClientDAOFake());
         controllerClient.logIn("Simple","simple");
     }
 
@@ -67,4 +67,22 @@ public class ClientTest {
         //then
         assertFalse(isProduct);
     }
+
+    @Test
+    public void should_create_product(){
+        //given
+        Product product = new Product.Builder()
+                .frameType("M")
+                .productPrice(1499)
+                .productName("BMX")
+                .productId(1)
+                .productColor("red")
+                .build();
+        //when
+        controllerClient.addToBasket(product,1);
+        boolean ifProduct = controllerClient.getBasket().containsKey(product);
+        // then
+        assertTrue(ifProduct);
+    }
+
 }
