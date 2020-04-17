@@ -2,7 +2,7 @@
 RKMD.iml
 target
 database.properties
-*.properties
+fakedatabase.properties
 
 
 # Created by https://www.gitignore.io/api/java,linux,intellij
