@@ -19,8 +19,8 @@ public class AdminDatabaseDAO implements AdminDAO {
     private List<User> AdminList;
     private TerminalView view;
 
-    public AdminDatabaseDAO() throws IOException {
-        Properties prop = LoginData.readProperties("src/main/resources/database.properties");
+    public AdminDatabaseDAO(String path) throws IOException {
+        Properties prop = LoginData.readProperties(path);
         url = prop.getProperty("db.url");
         user = prop.getProperty("db.user");
         password = prop.getProperty("db.passwd");
