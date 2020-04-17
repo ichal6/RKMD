@@ -19,7 +19,7 @@ public class AdminTest {
 
     {
         try {
-            AC = new ControllerAdmin(new TerminalView(), new InputManager(),new AdminDatabaseDAO(), new ClientDAOFake(), new ProductDBDAO());
+            AC = new ControllerAdmin(new TerminalView(), new InputManager(),new AdminDatabaseDAO("src/main/resources/fakedatabase.properties"), new ClientDAOFake(), new ProductDBDAO());
         } catch (IOException e) {
             e.printStackTrace();
         }
