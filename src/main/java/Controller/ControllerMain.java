@@ -16,7 +16,7 @@ public class ControllerMain {
 
     public ControllerMain(AbstractView view, InputManager input) throws IOException {
         controllerShop = new ControllerShop(view, input, new ProductDBDAO());
-        controllerAdmin = new ControllerAdmin(view, input, new AdminDatabaseDAO(), new ClientsDatabaseDAO(),new ProductDBDAO());
+        controllerAdmin = new ControllerAdmin(view, input, new AdminDatabaseDAO("src/main/resources/database.properties"), new ClientsDatabaseDAO(),new ProductDBDAO());
         this.view = view;
         this.input = input;
         fillMenuContent();
