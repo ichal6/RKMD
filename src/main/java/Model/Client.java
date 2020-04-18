@@ -1,22 +1,21 @@
 package Model;
 
-
 import java.util.HashMap;
+import java.util.Map;
 
 public class Client extends User {
-    HashMap<Product, Integer> basket;
-
+    Basket basket;
     public Client(String[] dataAboutClient) {
         super(dataAboutClient);
-        basket = new HashMap<>();
+        basket = new Basket();
     }
 
     public Client(Builder builder){
         super(builder);
-        basket = new HashMap<>();
+        basket = new Basket();
     }
     
     public HashMap<Product, Integer> getBasket() {
-        return basket;
+        return (HashMap<Product, Integer>) basket.getMapOfProducts();
     }
 }
