@@ -131,7 +131,7 @@ public class ControllerShop {
                 chooseProduct(searchProducts());
                 break;
             case 2:
-                view.print(controllerClient.getBasket());
+                getBasket();
                 break;
             case 3:
                 executeOrder();
@@ -144,6 +144,15 @@ public class ControllerShop {
                 break;
         }
         return true;
+    }
+
+    private void getBasket() {
+        if(controllerClient.getBasket().isEmpty()){
+            view.print("Basket is empty.");
+        }
+        else {
+            view.print(controllerClient.getBasket());
+        }
     }
 
 }
